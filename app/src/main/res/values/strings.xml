@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">RouteX-App</string>
+    <string name="app_name">RouteX</string>
+    <string name="welcome_back">Bienvenido de nuevo, %1$s</string>
+    <string name="last_update">Última actualización: %1$s</string>
 </resources>
