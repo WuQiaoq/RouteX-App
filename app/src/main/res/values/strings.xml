@@ -1,3 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RouteX-App</string>
+
+    <string name="app_name">Logistics App</string>
+
+    <!-- COMMON -->
+    <string name="search">Buscar</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="view_all">Ver todo</string>
+    <string name="back">Atrás</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="save">Guardar</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="loading">Cargando…</string>
+
+    <!-- HOME SCREEN -->
+    <string name="welcome_back">Bienvenido de nuevo</string>
+    <string name="placeholder_name">Alex Mitchell</string>
+    <string name="operational_status">Estado Operacional</string>
+    <string name="live_updates">En Vivo</string>
+    <string name="pending_requests">Solicitudes\nPendientes</string>
+    <string name="active_operations">Operaciones\nActivas</string>
+    <string name="rejected">Rechazadas</string>
+    <string name="quick_actions">Acciones Rápidas</string>
+    <string name="create_quote">Crear\nPresupuesto</string>
+    <string name="track_milestones">Track\nHitos</string>
+    <string name="active_charts">Gráficos\nActivos</string>
+    <string name="recent_notifications">Notificaciones Recientes</string>
+
+    <!-- CLIENTS SCREEN -->
+    <string name="active_clients">Clientes Activos</string>
+    <string name="tab_in_progress">En curso</string>
+    <string name="tab_pending">Pendientes</string>
+    <string name="tab_finalized">Finalizados</string>
+    <string name="containers">contenedores</string>
+    <string name="container">contenedor</string>
+    <string name="active_shipments">envíos activos</string>
+    <string name="active_shipment">envío activo</string>
+
+    <!-- BUDGETS SCREEN -->
+    <string name="budgets_title">Presupuestos Rechazados</string>
+    <string name="tab_sent">Enviados</string>
+    <string name="tab_accepted">Aceptados</string>
+    <string name="tab_rejected">Rechazados</string>
+    <string name="rejected_label">RECHAZADO</string>
+    <string name="accepted_label">ACEPTADO</string>
+    <string name="pending_label">PENDIENTE</string>
+    <string name="reason_label">Motivo:</string>
+    <string name="edit_and_resend">Editar y Reenviar</string>
+    <string name="delete_budget">Borrar Presupuesto</string>
+
+    <!-- BOTTOM NAV -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_budgets">Presupuestos</string>
+    <string name="nav_clients">Clientes</string>
+    <string name="nav_routes">Rutas</string>
+    <string name="nav_chat">Chat</string>
+
+    <!-- NOTIFICATIONS (ejemplos) -->
+    <string name="notif_shipment_delayed">Envío Retrasado</string>
+    <string name="notif_new_message">Nuevo Mensaje de Cliente</string>
+    <string name="notif_quote_accepted">Presupuesto Aceptado</string>
+
 </resources>

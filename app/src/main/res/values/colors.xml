@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- PRIMARY BRAND -->
+    <color name="color_primary">#F97316</color>
+    <color name="color_primary_dark">#EA580C</color>
+    <color name="color_primary_light">#FED7AA</color>
+    <color name="color_primary_extra_light">#FFF7ED</color>
+
+    <!-- SECONDARY -->
+    <color name="color_secondary">#1E293B</color>
+    <color name="color_secondary_light">#334155</color>
+
+    <!-- BACKGROUNDS -->
+    <color name="bg_light">#F8FAFC</color>
+    <color name="bg_medium">#F1F5F9</color>
+    <color name="white">#FFFFFF</color>
+
+    <!-- TEXT -->
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+    <color name="text_hint">#94A3B8</color>
+    <color name="text_on_primary">#FFFFFF</color>
+
+    <!-- STATUS COLORS -->
+    <color name="color_success">#16A34A</color>
+    <color name="color_success_light">#DCFCE7</color>
+    <color name="color_warning">#D97706</color>
+    <color name="color_warning_light">#FEF3C7</color>
+    <color name="color_error">#DC2626</color>
+    <color name="color_error_light">#FEE2E2</color>
+    <color name="color_info">#2563EB</color>
+    <color name="color_info_light">#DBEAFE</color>
+
+    <!-- BADGE COLORS -->
+    <color name="badge_active_bg">#FFF7ED</color>
+    <color name="badge_active_text">#F97316</color>
+    <color name="badge_rejected_bg">#FEE2E2</color>
+    <color name="badge_rejected_text">#DC2626</color>
+    <color name="badge_accepted_bg">#DCFCE7</color>
+    <color name="badge_accepted_text">#16A34A</color>
+    <color name="badge_pending_bg">#FEF3C7</color>
+    <color name="badge_pending_text">#D97706</color>
+
+    <!-- UI ELEMENTS -->
+    <color name="divider_color">#E2E8F0</color>
+    <color name="card_stroke">#E2E8F0</color>
+    <color name="bottom_nav_active">#F97316</color>
+    <color name="bottom_nav_inactive">#94A3B8</color>
+    <color name="tab_selected">#F97316</color>
+    <color name="tab_unselected">#94A3B8</color>
+    <color name="tab_indicator">#F97316</color>
+
+    <!-- ICON BACKGROUNDS -->
+    <color name="icon_bg_orange">#FED7AA</color>
+    <color name="icon_bg_blue">#DBEAFE</color>
+    <color name="icon_bg_green">#DCFCE7</color>
+    <color name="icon_bg_red">#FEE2E2</color>
+
+    <!-- OVERLAY / SHADOW -->
+    <color name="scrim">#80000000</color>
+
 </resources>
