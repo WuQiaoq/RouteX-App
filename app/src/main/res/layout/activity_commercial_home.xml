@@ -305,7 +305,7 @@
                                 android:layout_width="@dimen/quick_action_icon"
                                 android:layout_height="@dimen/quick_action_icon"
                                 android:src="@drawable/ic_add_quote"
-                                android:tint="@color/white" />
+                                app:tint="@color/white" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -335,7 +335,7 @@
                                 android:layout_width="@dimen/quick_action_icon"
                                 android:layout_height="@dimen/quick_action_icon"
                                 android:src="@drawable/ic_track"
-                                android:tint="@color/text_primary" />
+                                app:tint="@color/text_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -364,7 +364,7 @@
                                 android:layout_width="@dimen/quick_action_icon"
                                 android:layout_height="@dimen/quick_action_icon"
                                 android:src="@drawable/ic_charts"
-                                android:tint="@color/text_primary" />
+                                app:tint="@color/text_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -423,8 +423,64 @@
                     </LinearLayout>
 
                     <!-- Notification Item 1 -->
-                    <include layout="@layout/item_notification"
-                        android:id="@+id/notif1" />
+                    <LinearLayout
+                        android:id="@+id/notifItem1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp">
+
+                        <ImageView
+                            android:id="@+id/ivNotifIcon1"
+                            android:layout_width="@dimen/notif_icon_size"
+                            android:layout_height="@dimen/notif_icon_size"
+                            android:src="@drawable/ic_shipment"
+                            android:background="@drawable/circle_bg_orange_light"
+                            android:padding="8dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="@null" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingStart="@dimen/spacing_sm"
+                            android:paddingEnd="@dimen/spacing_xs">
+
+                            <TextView
+                                android:id="@+id/tvNotifTitle1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Shipment Delayed"
+                                android:textSize="@dimen/text_sm"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:id="@+id/tvNotifBody1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Container #TR-8829 from Port Newark has been delayed."
+                                android:textSize="@dimen/text_xs"
+                                android:textColor="@color/text_secondary"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvNotifTime1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1m ago"
+                            android:textSize="@dimen/text_xs"
+                            android:textColor="@color/text_hint"
+                            android:layout_gravity="top"
+                            android:paddingTop="2dp" />
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -434,8 +490,64 @@
                         android:layout_marginBottom="@dimen/spacing_xs" />
 
                     <!-- Notification Item 2 -->
-                    <include layout="@layout/item_notification"
-                        android:id="@+id/notif2" />
+                    <LinearLayout
+                        android:id="@+id/notifItem2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp">
+
+                        <ImageView
+                            android:id="@+id/ivNotifIcon2"
+                            android:layout_width="@dimen/notif_icon_size"
+                            android:layout_height="@dimen/notif_icon_size"
+                            android:src="@drawable/ic_clients"
+                            android:background="@drawable/circle_bg_orange_light"
+                            android:padding="8dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="@null" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingStart="@dimen/spacing_sm"
+                            android:paddingEnd="@dimen/spacing_xs">
+
+                            <TextView
+                                android:id="@+id/tvNotifTitle2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="New Client Message"
+                                android:textSize="@dimen/text_sm"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:id="@+id/tvNotifBody2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Global Logistics Corp: Can we adjust the pickup time for the Madrid route?"
+                                android:textSize="@dimen/text_xs"
+                                android:textColor="@color/text_secondary"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvNotifTime2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3m ago"
+                            android:textSize="@dimen/text_xs"
+                            android:textColor="@color/text_hint"
+                            android:layout_gravity="top"
+                            android:paddingTop="2dp" />
+                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
@@ -445,8 +557,64 @@
                         android:layout_marginBottom="@dimen/spacing_xs" />
 
                     <!-- Notification Item 3 -->
-                    <include layout="@layout/item_notification"
-                        android:id="@+id/notif3" />
+                    <LinearLayout
+                        android:id="@+id/notifItem3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp">
+
+                        <ImageView
+                            android:id="@+id/ivNotifIcon3"
+                            android:layout_width="@dimen/notif_icon_size"
+                            android:layout_height="@dimen/notif_icon_size"
+                            android:src="@drawable/ic_budget"
+                            android:background="@drawable/circle_bg_orange_light"
+                            android:padding="8dp"
+                            android:scaleType="centerInside"
+                            android:contentDescription="@null" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingStart="@dimen/spacing_sm"
+                            android:paddingEnd="@dimen/spacing_xs">
+
+                            <TextView
+                                android:id="@+id/tvNotifTitle3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Quote Accepted"
+                                android:textSize="@dimen/text_sm"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary" />
+
+                            <TextView
+                                android:id="@+id/tvNotifBody3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Your quote for Project NorthRoad v2.2 was accepted by the client."
+                                android:textSize="@dimen/text_xs"
+                                android:textColor="@color/text_secondary"
+                                android:maxLines="2"
+                                android:ellipsize="end"
+                                android:layout_marginTop="2dp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvNotifTime3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5m ago"
+                            android:textSize="@dimen/text_xs"
+                            android:textColor="@color/text_hint"
+                            android:layout_gravity="top"
+                            android:paddingTop="2dp" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
