@@ -31,16 +31,17 @@
         app:cardElevation="0dp"
         app:strokeColor="#E2E8F0"
         app:strokeWidth="1dp"
+
         app:layout_constraintBottom_toBottomOf="@id/tv_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_title">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@android:drawable/ic_popup_reminder"
-            app:tint="#FBAF3B" />
+            android:contentDescription="Notificaciones"
+            android:src="@drawable/ic_bell" />
 
         <View
             android:layout_width="8dp"
@@ -72,10 +73,10 @@
             android:paddingHorizontal="16dp">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_search"
-                app:tint="#94A3B8" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search"
+                android:contentDescription="Icono de búsqueda"/>
 
             <EditText
                 android:id="@+id/et_search"
@@ -112,7 +113,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Filtrar por estado: Todos"
+            android:contentDescription="Filtro de estado del envío"
+            tools:ignore="EditableContentDescCheck"
             android:inputType="none"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textColor="#1A202C"
             android:textColorHint="#64748B"
@@ -140,9 +144,10 @@
         android:layout_marginBottom="24dp"
         app:backgroundTint="#FBAF3B"
         app:elevation="4dp"
+        android:contentDescription="Añadir nuevo envío"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:srcCompat="@drawable/ic_add_quote"
         app:tint="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

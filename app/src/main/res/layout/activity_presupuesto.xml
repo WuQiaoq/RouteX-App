@@ -36,11 +36,10 @@
         app:layout_constraintTop_toTopOf="@id/tv_title">
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@android:drawable/ic_popup_reminder"
-            app:tint="#FBAF3B" />
+            android:src="@drawable/ic_bell" />
 
         <View
             android:layout_width="8dp"
@@ -70,10 +69,9 @@
             android:paddingHorizontal="16dp">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_search"
-                app:tint="#FBAF3B" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search" />
 
             <EditText
                 android:id="@+id/et_search"
@@ -107,7 +105,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#FBAF3B"
+                android:background="@color/bottom_nav_active"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
                 android:text="Todos"
@@ -159,17 +157,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scroll_tabs"
         tools:listitem="@layout/item_presupuesto" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
-        app:backgroundTint="#FBAF3B"
+        app:backgroundTint="@color/color_primary"
         app:elevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"
+        app:srcCompat="@drawable/ic_add_quote"
         app:tint="@android:color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
