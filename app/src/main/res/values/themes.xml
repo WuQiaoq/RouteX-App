@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.LogisticsApp" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.RouteXApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_dark</item>
         <item name="colorOnPrimary">@color/text_on_primary</item>
@@ -50,7 +50,7 @@
         <item name="tabTextAppearance">@style/TextAppearance.App.Tab</item>
     </style>
 
-    <style name="TextAppearance.App.Tab" parent="TextAppearance.MaterialComponents.Tab">
+    <style name="TextAppearance.App.Tab" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">@dimen/text_sm</item>
         <item name="android:textStyle">bold</item>
     </style>
