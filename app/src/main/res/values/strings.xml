@@ -63,4 +63,8 @@
     <string name="notif_new_message">Nuevo Mensaje de Cliente</string>
     <string name="notif_quote_accepted">Presupuesto Aceptado</string>
 
+    <!-- número de envio -->
+    <string name="shipping_detail_format">Detalle de Envío #%1$s</string>
+
+
 </resources>
