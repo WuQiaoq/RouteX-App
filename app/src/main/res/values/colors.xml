@@ -60,4 +60,7 @@
     <!-- OVERLAY / SHADOW -->
     <color name="scrim">#80000000</color>
 
+    <!--switch button off-->
+    <color name="switch_button_off">#D1D5DB</color>
+
 </resources>

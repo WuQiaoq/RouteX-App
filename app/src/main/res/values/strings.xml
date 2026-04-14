@@ -66,5 +66,10 @@
     <!-- número de envio -->
     <string name="shipping_detail_format">Detalle de Envío #%1$s</string>
 
+    <!--Perfil-->
+    <string name="format_colaborador_id">ID Colaborador: %s</string>
+    <string name="label_telefono">Teléfono</string>
+    <string name="label_correo">Correo Electrónico</string>
+
 
 </resources>
