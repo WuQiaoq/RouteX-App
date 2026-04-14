@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FAFC"
+    android:fitsSystemWindows="true"
+    tools:context=".commercial.CommercialNewClientActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingTop="24dp"
+        app:elevation="0dp"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_arrow_back" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Registrar Cliente"
+                    android:textColor="#1E293B"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintTop_toBottomOf="@id/appBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Detalles empresa"
+                    android:textColor="#1E293B"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView style="@style/LabelStyle" android:text="Company Name" />
+            <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter full legal name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView style="@style/LabelStyle" android:text="TAX ID / CIF" />
+                    <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="e.g. B12345678" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView style="@style/LabelStyle" android:text="Industry" />
+                    <com.google.android.material.textfield.TextInputLayout style="@style/ExposedDropdownStyle">
+                        <AutoCompleteTextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:text="Logistics" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/SectionHeaderStyle">
+                <TextView style="@style/SectionTitleStyle" android:text="Contact Person" />
+            </LinearLayout>
+
+            <TextView style="@style/LabelStyle" android:text="Full Name" />
+            <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="John Doe" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView style="@style/LabelStyle" android:text="Email" />
+            <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="email@company.com" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView style="@style/LabelStyle" android:text="Phone" />
+            <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="+34 6XXXXXXXXX" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout style="@style/SectionHeaderStyle">
+                <TextView style="@style/SectionTitleStyle" android:text="Financial" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView style="@style/LabelStyle" android:text="Currency" />
+                <com.google.android.material.textfield.TextInputLayout style="@style/ExposedDropdownStyle">
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="EUR €" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+                <TextView style="@style/LabelStyle" android:text="Payment Terms" />
+                <com.google.android.material.textfield.TextInputLayout style="@style/ExposedDropdownStyle">
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="none"
+                        android:text="Net 30" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout style="@style/SectionHeaderStyle">
+                <TextView style="@style/SectionTitleStyle" android:text="Documents" />
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView style="@style/DocumentCardStyle">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal" android:padding="16dp">
+                    <com.google.android.material.card.MaterialCardView android:layout_width="48dp" android:layout_height="48dp" app:cardBackgroundColor="#F1F5F9" app:cardCornerRadius="8dp" app:cardElevation="0dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_budget" />
+                    </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tax Certificate" android:textColor="#1E293B" android:textSize="14sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PDF, JPG up to 10MB" android:textColor="#94A3B8" android:textSize="12sp" />
+                    </LinearLayout>
+                    <com.google.android.material.button.MaterialButton style="@style/Widget.MaterialComponents.Button.UnelevatedButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upload" android:textAllCaps="false" android:textColor="#1E293B" app:backgroundTint="#F1F5F9" app:cornerRadius="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView style="@style/DocumentCardStyle">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal" android:padding="16dp">
+                    <com.google.android.material.card.MaterialCardView android:layout_width="48dp" android:layout_height="48dp" app:cardBackgroundColor="#F1F5F9" app:cardCornerRadius="8dp" app:cardElevation="0dp">
+                        <ImageView android:layout_width="24dp" android:layout_height="24dp" android:layout_gravity="center" android:src="@drawable/ic_clients" />
+                    </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="12dp" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Representative ID" android:textColor="#1E293B" android:textSize="14sp" android:textStyle="bold" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Front &amp; Back scan" android:textColor="#94A3B8" android:textSize="12sp" />
+                    </LinearLayout>
+                    <com.google.android.material.button.MaterialButton style="@style/Widget.MaterialComponents.Button.UnelevatedButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Upload" android:textAllCaps="false" android:textColor="#1E293B" app:backgroundTint="#F1F5F9" app:cornerRadius="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Registrar Cliente"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="#FF9800"
+            app:cornerRadius="12dp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
