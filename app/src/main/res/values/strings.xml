@@ -71,5 +71,19 @@
     <string name="label_telefono">Teléfono</string>
     <string name="label_correo">Correo Electrónico</string>
 
+    <!--main -->
+    <string name="format_bienvenido">Bienvenido de nuevo, %s</string>
+    <string name="format_last_update">Última actualización: %s</string>
 
+    <!--item recent del main-->
+    <string name="format_shipment_desc"></string>
+    <string name="titulo_de_envio">%1$s from %2$s</string>
+    <string name="estado_a_tiempo">A TIEMPO</string>
+    <string name="estado_retraso">RETRASADO</string>
+    <string name="estado_en_transito">En Tránsito</string>
+    <string name="estado_entregado">ENTREGADO</string>
+
+    <!--item mis presupuestos-->
+    <string name="quote_id">#%s</string>
+    <string name="action_ver_detalles">Ver Detalles &gt;</string>
 </resources>
