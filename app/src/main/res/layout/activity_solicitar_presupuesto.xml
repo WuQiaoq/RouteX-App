@@ -61,13 +61,6 @@
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@android:drawable/ic_menu_mylocation"
-                    android:contentDescription="Icono Origen"
-                    app:tint="#4A5568" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,13 +100,6 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@android:drawable/ic_menu_mapmode"
-                    android:contentDescription="Icono Destino"
-                    app:tint="#4A5568" />
 
                 <TextView
                     android:layout_width="wrap_content"
