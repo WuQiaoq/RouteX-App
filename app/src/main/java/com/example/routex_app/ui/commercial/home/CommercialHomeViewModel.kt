@@ -1,4 +1,4 @@
-package com.example.routex_app.ui.commercial
+package com.example.routex_app.ui.commercial.home
 
 
 import androidx.lifecycle.ViewModel
@@ -36,6 +36,5 @@ class CommercialHomeViewModel(private val repository: CommercialRepository) : Vi
                 }
                 else -> Unit
             }
-        }
-    }
+        }    }
 }
