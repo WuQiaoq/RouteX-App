@@ -74,6 +74,7 @@
             <TextView style="@style/LabelStyle" android:text="Company Name" />
             <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCompanyName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter full legal name" />
@@ -92,6 +93,7 @@
                     <TextView style="@style/LabelStyle" android:text="TAX ID / CIF" />
                     <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etTaxId"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="e.g. B12345678" />
@@ -105,6 +107,7 @@
                     <TextView style="@style/LabelStyle" android:text="Industry" />
                     <com.google.android.material.textfield.TextInputLayout style="@style/ExposedDropdownStyle">
                         <AutoCompleteTextView
+                            android:id="@+id/autoIndustry"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none"
@@ -120,6 +123,7 @@
             <TextView style="@style/LabelStyle" android:text="Full Name" />
             <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etFullName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="John Doe" />
@@ -128,6 +132,7 @@
             <TextView style="@style/LabelStyle" android:text="Email" />
             <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etClientEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="email@company.com" />
@@ -136,6 +141,7 @@
             <TextView style="@style/LabelStyle" android:text="Phone" />
             <com.google.android.material.textfield.TextInputLayout style="@style/InputLayoutStyle">
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="+34 6XXXXXXXXX" />
@@ -149,6 +155,7 @@
                 <TextView style="@style/LabelStyle" android:text="Currency" />
                 <com.google.android.material.textfield.TextInputLayout style="@style/ExposedDropdownStyle">
                     <AutoCompleteTextView
+                        android:id="@+id/autoCurrency"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"

@@ -1,7 +1,9 @@
 package com.example.routex_app.commercial
 
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -50,6 +52,12 @@ class CommercialHomeActivity : AppCompatActivity() {
         } else {
             android.util.Log.e("DEBUG_APP", "DATOS INCOMPLETOS: No se llamará a la API")
             Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+        }
+
+
+        binding.btnNuevoCliente.setOnClickListener {
+            val intent = Intent(this, CommercialNewClientActivity::class.java)
+            startActivity(intent)
         }
 
         // Observamos el estado del ViewModel

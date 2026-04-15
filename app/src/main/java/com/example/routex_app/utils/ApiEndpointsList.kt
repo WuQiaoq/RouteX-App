@@ -13,6 +13,9 @@ object ApiEndpointsList {
     const val REJECTED_QUOTES_ENDPOINT = "commercial/ofertes/rejected/"
     const val SENT_QUOTES_ENDPOINT = "commercial/ofertes/sent/"
     const val ACCEPTED_QUOTES_ENDPOINT = "commercial/ofertes/accepted/"
+    const val RESGISTER_NEW_CLIENT = "commercial/register-client"
+    const val LIST_CURRENCY = "commercial/currency"
+    const val LIST_INDUSTRY = "commercial/industria"
 
 
 }
