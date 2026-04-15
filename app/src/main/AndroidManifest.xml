@@ -35,6 +35,9 @@
             android:name=".commercial.CommercialHomeActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".commercial.PresupuestosActivity"
+            android:exported="false" />
 
         <activity
             android:name=".commercial.CommercialNewClientActivity"

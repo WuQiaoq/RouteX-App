@@ -1,7 +1,6 @@
 package com.example.routex_app.commercial
 
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -11,13 +10,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.routex_app.NavigationUtils
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityCommercialHomeBinding
-import com.example.routex_app.databinding.ItemNotificationBinding
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.CommercialRepository
-import com.example.routex_app.ui.commercial.CommercialHomeViewModel
+import com.example.routex_app.ui.commercial.home.CommercialHomeViewModel
 import kotlinx.coroutines.launch
 
 class CommercialHomeActivity : AppCompatActivity() {
@@ -35,9 +34,13 @@ class CommercialHomeActivity : AppCompatActivity() {
         binding = ActivityCommercialHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bottomNav = binding.bottomNav
+        NavigationUtils.setupBottomNavigation(this, bottomNav, R.id.nav_home)
+
         // 2. Recuperamos TOKEN e ID (importante que el nombre coincida con el Login)
         val token = intent.getStringExtra("USER_TOKEN") ?: ""
         val userId = intent.getIntExtra("USER_ID", -1)
+
 
         // LOG DE PRUEBA: Mira esto en el Logcat
         android.util.Log.d("DEBUG_APP", "Token: $token")
@@ -46,16 +49,10 @@ class CommercialHomeActivity : AppCompatActivity() {
             viewModel.loadDashboard(token, userId)
         } else {
             android.util.Log.e("DEBUG_APP", "DATOS INCOMPLETOS: No se llamará a la API")
-        }
-
-        // 3. Iniciamos la carga de datos enviando ambos parámetros
-        if (token.isNotEmpty() && userId != -1) {
-            viewModel.loadDashboard(token, userId)
-        } else {
             Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
         }
 
-        // 4. Observamos el estado del ViewModel
+        // Observamos el estado del ViewModel
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
