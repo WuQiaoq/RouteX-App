@@ -122,7 +122,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvEmailLabel">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etCorreo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="name@company.com"
@@ -184,7 +184,7 @@
             app:layout_constraintTop_toBottomOf="@id/tilPassword" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnEntrar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
