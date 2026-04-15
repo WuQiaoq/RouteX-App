@@ -13,16 +13,21 @@ import io.ktor.client.HttpClient
 
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.*
 
 class ApiService(private val client: HttpClient) {
 
-    suspend fun login(loginRequest: LoginRequest): LoginResponse {
-        // Ktor ya sabe que debe usar la BASE_URL, así que solo pones el final
+    suspend fun login(loginRequest: LoginRequest): HttpResponse {
         return client.post(ApiEndpointsList.LOGIN_ENDPOINT) {
             contentType(ContentType.Application.Json)
             setBody(loginRequest)
-        }.body()
+        }
+    }
+    suspend fun loginRaw(request: LoginRequest): HttpResponse {
+        return client.post("api/login") {
+            setBody(request)
+        }
     }
 
     suspend fun getCommercialDashboard(token: String, userId: Int): CommercialDashboardResponse {

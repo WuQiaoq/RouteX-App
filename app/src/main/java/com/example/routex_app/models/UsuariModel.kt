@@ -10,7 +10,7 @@ data class UsuariModel(
     val cognoms: String,
     val rol_id: String,
     val company_id: String,
-    val tlfn: String,
     val status: String,
+    val tlfn: String? = null,
     val ultima_conex: String? = null
-                      )
+)

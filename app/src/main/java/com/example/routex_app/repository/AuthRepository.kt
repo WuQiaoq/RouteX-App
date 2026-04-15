@@ -17,14 +17,19 @@ class AuthRepository(private val apiService: ApiService) {
 
     suspend fun login(usuario: String, clave: String): Resource<LoginResponse> {
         return try {
-            // Llamamos a la función que definiste en ApiService
             val response = apiService.login(LoginRequest(usuario, clave))
-            Resource.Success(response)
+
+            if (response.status == HttpStatusCode.OK) {
+                val data = response.body<LoginResponse>()
+                Resource.Success(data)
+            } else {
+                // Aquí evitamos el crash parseando el error manualmente
+                val errorMsg: Map<String, String> = response.body()
+                Resource.Error(errorMsg["error"] ?: "Error desconocido")
+            }
         } catch (e: Exception) {
-            // Este Log es el que te dirá en consola si falla la conversión de JSON
-            Log.e("AUTH_REPOSITORY", "Error en login: ${e.message}")
-            e.printStackTrace()
-            Resource.Error(e.localizedMessage ?: "Error de conexión")
+            Log.e("AUTH", "Error: ${e.message}")
+            Resource.Error("Error de red o formato")
         }
     }
 }
