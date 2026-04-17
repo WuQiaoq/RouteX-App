@@ -1,5 +1,6 @@
 package com.example.routex_app.ui.login
 
+import android.util.Base64
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.routex_app.repository.AuthRepository
@@ -10,36 +11,42 @@ import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
 
-    // Esta es nuestra tubería de datos privada (Mutable)
     private val _state = MutableStateFlow(LoginState())
-    // Esta es la versión pública que la UI puede leer pero no modificar
     val state: StateFlow<LoginState> = _state
 
-    fun onLoginClick(usuario: String, clave: String) {
-        // Iniciamos la corrutina (proceso de fondo)
+    fun onLoginClick(usuario: String, clavePlana: String) {
         viewModelScope.launch {
-            // 1. Decimos a la UI que estamos cargando
+            // 1. Indicar carga a la UI
             _state.value = LoginState(isLoading = true)
 
-            // 2. Llamamos al repositorio
-            when (val result = repository.login(usuario, clave)) {
-                is Resource.Success -> {
-                    // 3. Éxito: Guardamos el token y avisamos a la UI
-                    _state.value = LoginState(
-                        isLoading = false,
-                        success = true,
-                        token = result.data?.token,
-                        usuari = result.data?.usuari
-                                             )
+            try {
+                // 2. "Disfrazamos" la contraseña con Base64 (Reversible)
+                // Usamos NO_WRAP para evitar saltos de línea que rompan la URL/JSON
+                val claveCodificada = Base64.encodeToString(clavePlana.toByteArray(), Base64.NO_WRAP)
+
+                // 3. Llamada al repositorio con la clave codificada
+                when (val result = repository.login(usuario, claveCodificada)) {
+                    is Resource.Success -> {
+                        _state.value = LoginState(
+                            isLoading = false,
+                            success = true,
+                            token = result.data?.token,
+                            usuari = result.data?.usuari
+                                                 )
+                    }
+                    is Resource.Error -> {
+                        _state.value = LoginState(
+                            isLoading = false,
+                            error = result.message ?: "Error desconocido"
+                                                 )
+                    }
+                    else -> Unit
                 }
-                is Resource.Error -> {
-                    // 4. Error: Pasamos el mensaje de error del PHP o de red
-                    _state.value = LoginState(
-                        isLoading = false,
-                        error = result.message
-                                             )
-                }
-                else -> Unit
+            } catch (e: Exception) {
+                _state.value = LoginState(
+                    isLoading = false,
+                    error = "Error en el proceso: ${e.message}"
+                                         )
             }
         }
     }

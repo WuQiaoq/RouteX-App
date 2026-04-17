@@ -13,7 +13,8 @@ data class RegisterClientRequest(
     val correu: String,
     val nom: String,
     val cognoms: String,
-    val tlfn: String
+    val tlfn: String,
+    val representativeIdImage: String? = null
 )
 
 @Serializable
