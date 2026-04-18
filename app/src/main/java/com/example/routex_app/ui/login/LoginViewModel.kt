@@ -1,6 +1,8 @@
 package com.example.routex_app.ui.login
 
-import android.util.Base64
+
+
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.routex_app.repository.AuthRepository
@@ -14,39 +16,51 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
     private val _state = MutableStateFlow(LoginState())
     val state: StateFlow<LoginState> = _state
 
-    fun onLoginClick(usuario: String, clavePlana: String) {
+    fun onLoginClick(email: String, clave: String) {
         viewModelScope.launch {
-            // 1. Indicar carga a la UI
+            // Estado inicial de carga
             _state.value = LoginState(isLoading = true)
 
             try {
-                // 2. "Disfrazamos" la contraseña con Base64 (Reversible)
-                // Usamos NO_WRAP para evitar saltos de línea que rompan la URL/JSON
-                val claveCodificada = Base64.encodeToString(clavePlana.toByteArray(), Base64.NO_WRAP)
+                val result = repository.login(email, clave)
 
-                // 3. Llamada al repositorio con la clave codificada
-                when (val result = repository.login(usuario, claveCodificada)) {
+                when (result) {
                     is Resource.Success -> {
-                        _state.value = LoginState(
-                            isLoading = false,
-                            success = true,
-                            token = result.data?.token,
-                            usuari = result.data?.usuari
-                                                 )
+                        val loginResponse = result.data
+
+                        if (loginResponse != null && loginResponse.token != null) {
+                            // Log de depuración técnica
+                            Log.d("LOGIN_VM", "Token recibido con éxito: ${loginResponse.token.take(10)}...")
+
+                            _state.value = LoginState(
+                                isLoading = false,
+                                success = true,
+                                usuari = loginResponse.usuari,
+                                token = loginResponse.token // Asignación crucial
+                            )
+                        } else {
+                            _state.value = LoginState(
+                                isLoading = false,
+                                error = "El servidor no devolvió un token válido"
+                            )
+                        }
                     }
                     is Resource.Error -> {
                         _state.value = LoginState(
                             isLoading = false,
-                            error = result.message ?: "Error desconocido"
-                                                 )
+                            error = result.message ?: "Credenciales incorrectas"
+                        )
                     }
-                    else -> Unit
+                    else -> {
+                        _state.value = _state.value.copy(isLoading = false)
+                    }
                 }
             } catch (e: Exception) {
+                Log.e("LOGIN_VM", "Excepción en login", e)
                 _state.value = LoginState(
                     isLoading = false,
-                    error = "Error en el proceso: ${e.message}"
-                                         )
+                    error = "Error de conexión: ${e.localizedMessage}"
+                )
             }
         }
     }

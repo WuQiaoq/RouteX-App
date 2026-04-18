@@ -21,21 +21,17 @@ import io.ktor.http.*
 
 class ApiService(private val client: HttpClient) {
 
-    suspend fun login(loginRequest: LoginRequest): HttpResponse {
+    suspend fun login(email: String): HttpResponse {
         return client.post(ApiEndpointsList.LOGIN_ENDPOINT) {
             contentType(ContentType.Application.Json)
-            setBody(loginRequest)
-        }
-    }
-    suspend fun loginRaw(request: LoginRequest): HttpResponse {
-        return client.post("api/login") {
-            setBody(request)
+            setBody(LoginRequest(email))
         }
     }
 
+
     suspend fun getCommercialDashboard(token: String, userId: Int): CommercialDashboardResponse {
         return client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.COMMERCIAL_DASHBOARD_ENDPOINT + userId) {
-            header("Authorization", "Bearer $token")
+            header(HttpHeaders.Authorization, "Bearer $token")
         }.body()
     }
 

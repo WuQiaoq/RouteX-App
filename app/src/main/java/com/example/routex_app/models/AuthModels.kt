@@ -1,17 +1,20 @@
 package com.example.routex_app.models
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-// Lo que enviamos al PHP
+
 @Serializable
 data class LoginRequest(
-    val correu: String,
-    val contrasenya: String
+    val Email: String
                        )
 
-// Lo que el PHP nos devuelve
+
 @Serializable
 data class LoginResponse(
+    @SerialName("usuari")
     val usuari: UsuariModel,
+
+    @SerialName("token")
     val token: String
                         )

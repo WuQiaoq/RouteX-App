@@ -6,11 +6,13 @@ import kotlinx.serialization.Serializable
 data class UsuariModel(
     val id: Int,
     val correu: String,
+    val contrasenya: String,
     val nom: String,
     val cognoms: String,
-    val rol_id: String,
-    val company_id: String,
+    val rolId: Int,
+    val companyId: Int,
     val status: String,
     val tlfn: String? = null,
-    val ultima_conex: String? = null
+    val ultimaConex: String? = null
 )
+
