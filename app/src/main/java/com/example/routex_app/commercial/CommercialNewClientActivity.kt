@@ -1,10 +1,9 @@
 package com.example.routex_app.commercial
 
-import android.graphics.Bitmap
+
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +14,7 @@ import com.example.routex_app.R
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
+import com.example.routex_app.network.NetworkClient
 import com.example.routex_app.repository.ClientRepository
 import com.example.routex_app.utils.Resource
 import com.google.android.material.button.MaterialButton
@@ -22,7 +22,6 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 class CommercialNewClientActivity : AppCompatActivity() {
@@ -31,11 +30,11 @@ class CommercialNewClientActivity : AppCompatActivity() {
     private lateinit var autoIndustry: AutoCompleteTextView
     private lateinit var autoCurrency: AutoCompleteTextView
     private lateinit var txtIdStatus: TextView
-    private var encodedIdImage: String? = null // Aquí guardamos el DNI codificado
 
-    // Selector de imágenes para subir
+    private var serverFileResponse: String? = null
+
     private val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let { processAndEncodeImage(it) }
+        uri?.let { processAndUploadImage(it) }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +43,6 @@ class CommercialNewClientActivity : AppCompatActivity() {
 
         repository = ClientRepository(ApiService(KtorClient.httpClient))
 
-        // Vincular Vistas
         autoIndustry = findViewById(R.id.autoIndustry)
         autoCurrency = findViewById(R.id.autoCurrency)
         txtIdStatus = findViewById(R.id.txtIdStatus)
@@ -54,18 +52,13 @@ class CommercialNewClientActivity : AppCompatActivity() {
 
         loadDropdownData()
 
-        // ACCIÓN SUBIR: Abrir galería
         btnUploadId.setOnClickListener {
             imagePicker.launch("image/*")
         }
 
-        // ACCIÓN BAJAR: Mostrar lo que está en 'encodedIdImage' (Simulando bajada del servidor)
         btnDownloadId.setOnClickListener {
-            if (!encodedIdImage.isNullOrEmpty()) {
-                showDecodedImageDialog(encodedIdImage!!)
-            } else {
-                Toast.makeText(this, "No hay ningún DNI cargado aún", Toast.LENGTH_SHORT).show()
-            }
+            // Cridem a la funció unificada
+            descarregarIMostrarDni()
         }
 
         btnRegistrar.setOnClickListener {
@@ -74,54 +67,76 @@ class CommercialNewClientActivity : AppCompatActivity() {
         }
     }
 
-    // --- PROCESO 1: De Imagen a Base64 (ENCRIPTAR PARA SUBIR) ---
-    private fun processAndEncodeImage(uri: Uri) {
+    private fun processAndUploadImage(uri: Uri) {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
+
+        if (usertlfn.isEmpty()) {
+            Toast.makeText(this, "Introdueix el Tax ID per crear la carpeta del client", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val inputStream: InputStream? = contentResolver.openInputStream(uri)
-                val bitmap = BitmapFactory.decodeStream(inputStream)
+                val inputStream = contentResolver.openInputStream(uri)
+                val bytes = inputStream?.readBytes() ?: return@launch
+                val fileName = "dni.jpg"
 
-                // Compresión para no saturar el servidor (70%)
-                val outputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 70, outputStream)
-                val bytes = outputStream.toByteArray()
-
-                // Codificación Base64 limpia
-                val base64String = Base64.encodeToString(bytes, Base64.NO_WRAP)
+                val resultat = NetworkClient.enviarDni(usertlfn, bytes, fileName)
 
                 withContext(Dispatchers.Main) {
-                    encodedIdImage = base64String
-                    txtIdStatus.text = "✓ DNI preparado para envío"
+                    serverFileResponse = fileName
+                    txtIdStatus.text = "✓ DNI enviat a la carpeta /uploads/$usertlfn"
                     txtIdStatus.setTextColor(getColor(android.R.color.holo_green_dark))
+                    Toast.makeText(this@CommercialNewClientActivity, resultat, Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(this@CommercialNewClientActivity, "Error al procesar", Toast.LENGTH_SHORT).show()
+                    txtIdStatus.text = "Error en la pujada"
+                    txtIdStatus.setTextColor(getColor(android.R.color.holo_red_dark))
                 }
             }
         }
     }
 
-    // --- PROCESO 2: De Base64 a Imagen (DESENCRIPTAR Y MOSTRAR) ---
-    private fun showDecodedImageDialog(base64Str: String) {
-        try {
-            // Decodificar String a Bytes
-            val imageBytes = Base64.decode(base64Str, Base64.DEFAULT)
-            val decodedBitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+    // FUNCIÓ DE DESCÀRREGA UNIFICADA I CORREGIDA
+    private fun descarregarIMostrarDni() {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
+        val filename = serverFileResponse
 
-            // Inflar el layout del pop-up
-            val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_image_preview, null)
-            val ivPreview = dialogView.findViewById<ImageView>(R.id.ivFullPreview)
-            ivPreview.setImageBitmap(decodedBitmap)
-
-            AlertDialog.Builder(this)
-                .setTitle("Vista previa del DNI")
-                .setView(dialogView)
-                .setPositiveButton("Cerrar", null)
-                .show()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error al desencriptar imagen", Toast.LENGTH_SHORT).show()
+        if (usertlfn.isEmpty()) {
+            Toast.makeText(this, "Cal el telefon per identificar la carpeta", Toast.LENGTH_SHORT).show()
+            return
         }
+        if (filename == null) {
+            Toast.makeText(this, "Encara no has pujat cap DNI", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Passem userId i filename al NetworkClient
+            val imageBytes = NetworkClient.baixarDni(usertlfn, filename)
+
+            withContext(Dispatchers.Main) {
+                if (imageBytes != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    mostrarDialogPreview(bitmap) // Utilitzem el nom correcte de la funció
+                } else {
+                    Toast.makeText(this@CommercialNewClientActivity, "Error en baixar el fitxer", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun mostrarDialogPreview(bitmap: android.graphics.Bitmap) {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_image_preview, null)
+        val ivPreview = dialogView.findViewById<ImageView>(R.id.ivFullPreview)
+        ivPreview.setImageBitmap(bitmap)
+
+        AlertDialog.Builder(this)
+            .setTitle("DNI recuperat del servidor")
+            .setView(dialogView)
+            .setPositiveButton("Tancar", null)
+            .show()
     }
 
     private fun collectData(): RegisterClientRequest? {
@@ -129,7 +144,7 @@ class CommercialNewClientActivity : AppCompatActivity() {
         val email = findViewById<TextInputEditText>(R.id.etClientEmail).text.toString()
 
         if (company.isEmpty() || email.isEmpty()) {
-            Toast.makeText(this, "Faltan campos obligatorios", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Faltan camps obligatoris", Toast.LENGTH_SHORT).show()
             return null
         }
 
@@ -142,15 +157,15 @@ class CommercialNewClientActivity : AppCompatActivity() {
             nom = findViewById<TextInputEditText>(R.id.etFullName).text.toString(),
             cognoms = "",
             tlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString(),
-            representativeIdImage = encodedIdImage // Aquí va el DNI codificado
-                                    )
+            representativeIdImage = serverFileResponse // Enviem el nom del fitxer ja pujat
+        )
     }
 
     private fun executeRegistration(request: RegisterClientRequest) {
         lifecycleScope.launch {
             when (val result = repository.registerClient(request)) {
                 is Resource.Success -> {
-                    Toast.makeText(this@CommercialNewClientActivity, "Registrado con éxito", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@CommercialNewClientActivity, "Client registrat!", Toast.LENGTH_SHORT).show()
                     finish()
                 }
                 is Resource.Error -> Toast.makeText(this@CommercialNewClientActivity, result.message, Toast.LENGTH_SHORT).show()
@@ -161,23 +176,36 @@ class CommercialNewClientActivity : AppCompatActivity() {
 
     private fun loadDropdownData() {
         lifecycleScope.launch {
-            // Cargar Industrias
-            when (val result = repository.getIndustries()) {
-                is Resource.Success -> {
-                    val names = result.data?.map { it.categoria } ?: emptyList()
-                    autoIndustry.setAdapter(ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, names))
-                }
-                is Resource.Error -> Toast.makeText(this@CommercialNewClientActivity, "Error industrias", Toast.LENGTH_SHORT).show()
-                else -> {}
+            val industryResult = repository.getIndustries()
+            if (industryResult is Resource.Success) {
+                val names = industryResult.data?.map { it.categoria } ?: emptyList()
+                autoIndustry.setAdapter(ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, names))
             }
 
-            // Cargar Monedas
-            when (val result = repository.getCurrencies()) {
-                is Resource.Success -> {
-                    val codes = result.data?.map { it.id } ?: emptyList()
-                    autoCurrency.setAdapter(ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, codes))
+            val currencyResult = repository.getCurrencies()
+            if (currencyResult is Resource.Success) {
+                val codes = currencyResult.data?.map { it.id } ?: emptyList()
+                autoCurrency.setAdapter(ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, codes))
+            }
+        }
+    }
+
+    private fun descarregarIMostrarDni(filename: String) {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
+        lifecycleScope.launch(Dispatchers.IO) {
+            // 1. Baixem els bytes (ja venen desencriptats pel servidor)
+            val imageBytes = NetworkClient.baixarDni(usertlfn ,filename)
+
+            withContext(Dispatchers.Main) {
+                if (imageBytes != null) {
+                    // 2. Convertim bytes a Bitmap
+                    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+                    // 3. Reutilitzem la teva lògica de mostrar el Dialog
+                    mostrarDialogPreview(bitmap)
+                } else {
+                    Toast.makeText(this@CommercialNewClientActivity, "Error en baixar el fitxer", Toast.LENGTH_SHORT).show()
                 }
-                else -> {}
             }
         }
     }

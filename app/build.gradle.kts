@@ -57,4 +57,5 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("org.mindrot:jbcrypt:0.4")
+    implementation("io.ktor:ktor-client-core:2.3.7")
 }
