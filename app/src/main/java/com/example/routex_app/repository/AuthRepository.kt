@@ -1,35 +1,45 @@
 package com.example.routex_app.repository
 
 
-import android.util.Log
-import com.example.routex_app.models.LoginRequest
 import com.example.routex_app.models.LoginResponse
-import com.example.routex_app.utils.ApiEndpointsList
+import com.example.routex_app.models.UsuariModel
+
 import com.example.routex_app.utils.Resource
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+
 import com.example.routex_app.network.ApiService
+
+import org.mindrot.jbcrypt.BCrypt
+
+import io.ktor.client.call.body
+import io.ktor.http.HttpStatusCode
+
+
 
 
 class AuthRepository(private val apiService: ApiService) {
 
-    suspend fun login(usuario: String, clave: String): Resource<LoginResponse> {
+    suspend fun login(email: String, clavePlana: String): Resource<LoginResponse> {
         return try {
-            val response = apiService.login(LoginRequest(usuario, clave))
+            val response = apiService.login(email)
 
             if (response.status == HttpStatusCode.OK) {
-                val data = response.body<LoginResponse>()
-                Resource.Success(data)
+                // Recibimos la respuesta completa (Usuario + Token)
+                val loginData = response.body<LoginResponse>()
+                val usuario = loginData.usuari
+
+                // Hack del prefijo para evitar "Invalid salt revision"
+                val hashCorregido = usuario.contrasenya.replaceFirst("$2y$", "$2a$")
+
+                if (BCrypt.checkpw(clavePlana, hashCorregido)) {
+                    Resource.Success(loginData) // Retornamos el objeto completo
+                } else {
+                    Resource.Error("Contraseña incorrecta")
+                }
             } else {
-                // Aquí evitamos el crash parseando el error manualmente
-                val errorMsg: Map<String, String> = response.body()
-                Resource.Error(errorMsg["error"] ?: "Error desconocido")
+                Resource.Error("Usuario no encontrado")
             }
         } catch (e: Exception) {
-            Log.e("AUTH", "Error: ${e.message}")
-            Resource.Error("Error de red o formato")
+            Resource.Error("Error: ${e.localizedMessage}")
         }
     }
 }

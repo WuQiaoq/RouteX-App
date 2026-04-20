@@ -34,7 +34,7 @@ object KtorClient {
         }
 
         defaultRequest {
-            url(ApiEndpointsList.BASE_URL)
+            url(ApiEndpointsList.BASE_URL_CS)
         }
 
     }

@@ -9,3 +9,4 @@ data class LoginState(
     val token: String? = null,            // El token recibido
     val usuari: UsuariModel? = null
                      )
+

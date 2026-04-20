@@ -1,129 +1,210 @@
 package com.example.routex_app.commercial
 
+
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.routex_app.R
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
+import com.example.routex_app.network.NetworkClient
 import com.example.routex_app.repository.ClientRepository
 import com.example.routex_app.utils.Resource
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.InputStream
 
 class CommercialNewClientActivity : AppCompatActivity() {
 
     private lateinit var repository: ClientRepository
-
-    // Referencias a los componentes de la UI (Asegúrate de ponerle IDs en el XML)
     private lateinit var autoIndustry: AutoCompleteTextView
     private lateinit var autoCurrency: AutoCompleteTextView
+    private lateinit var txtIdStatus: TextView
+
+    private var serverFileResponse: String? = null
+
+    private val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let { processAndUploadImage(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_commercial_new_client)
 
-        // 1. Inicializar Repositorio (Asumiendo que tienes tu KtorClient configurado)
-        val apiService = ApiService(KtorClient.httpClient)
-        repository = ClientRepository(apiService)
+        repository = ClientRepository(ApiService(KtorClient.httpClient))
 
-        // 2. Vincular vistas
         autoIndustry = findViewById(R.id.autoIndustry)
         autoCurrency = findViewById(R.id.autoCurrency)
-
-        // 3. Cargar datos para los desplegables
-        loadDropdownData()
-
+        txtIdStatus = findViewById(R.id.txtIdStatus)
+        val btnUploadId = findViewById<MaterialButton>(R.id.btnUploadId)
+        val btnDownloadId = findViewById<MaterialButton>(R.id.btnDownloadId)
         val btnRegistrar = findViewById<Button>(R.id.btnRegistrar)
 
+        loadDropdownData()
+
+        btnUploadId.setOnClickListener {
+            imagePicker.launch("image/*")
+        }
+
+        btnDownloadId.setOnClickListener {
+            // Cridem a la funció unificada
+            descarregarIMostrarDni()
+        }
+
         btnRegistrar.setOnClickListener {
-            // 1. Recoger datos de la UI
-            // Asegúrate de que estos IDs coincidan con los de tu XML
-            val companyName = findViewById<TextInputEditText>(R.id.etCompanyName).text.toString()
-            val taxId = findViewById<TextInputEditText>(R.id.etTaxId).text.toString()
-            val industry = autoIndustry.text.toString()
-
-            val fullName = findViewById<TextInputEditText>(R.id.etFullName).text.toString()
-            val email = findViewById<TextInputEditText>(R.id.etClientEmail).text.toString()
-            val phone = findViewById<TextInputEditText>(R.id.etPhone).text.toString()
-
-            val currency = autoCurrency.text.toString()
-
-            // 2. Validación básica
-            if (companyName.isEmpty() || email.isEmpty() || industry.isEmpty()) {
-                Toast.makeText(this, "Por favor, rellena los campos obligatorios", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // 3. Crear el objeto Request
-            val request = RegisterClientRequest(
-                companyName = companyName,
-                industryName = industry,
-                taxId = taxId,
-                currencyId = currency,
-                correu = email,
-                nom = fullName.split(" ").firstOrNull() ?: fullName, // Separar nombre
-                cognoms = fullName.split(" ").drop(1).joinToString(" "), // Separar apellidos
-                tlfn = phone
-            )
-
-            // 4. Enviar al servidor
-            executeRegistration(request)
+            val request = collectData()
+            if (request != null) executeRegistration(request)
         }
     }
 
-    private fun loadDropdownData() {
-        lifecycleScope.launch {
-            // --- Cargar Industrias ---
-            when (val result = repository.getIndustries()) {
-                is Resource.Success -> {
-                    val names = result.data?.map { it.categoria } ?: emptyList()
-                    val adapter = ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, names)
-                    autoIndustry.setAdapter(adapter)
-                }
-                is Resource.Error -> {
-                    Toast.makeText(this@CommercialNewClientActivity, result.message, Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading -> {
+    private fun processAndUploadImage(uri: Uri) {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
 
-                }
-            }
+        if (usertlfn.isEmpty()) {
+            Toast.makeText(this, "Introdueix el Tax ID per crear la carpeta del client", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-            // --- Cargar currency ---
-            when (val result = repository.getCurrencies()) {
-                is Resource.Success -> {
-                    val codes = result.data?.map { it.id } ?: emptyList()
-                    val adapter = ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, codes)
-                    autoCurrency.setAdapter(adapter)
-                }
-                is Resource.Error -> {
-                    Toast.makeText(this@CommercialNewClientActivity, "Error monedas: ${result.message}", Toast.LENGTH_SHORT).show()
-                }
-                is Resource.Loading -> {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val inputStream = contentResolver.openInputStream(uri)
+                val bytes = inputStream?.readBytes() ?: return@launch
+                val fileName = "dni.jpg"
 
+                val resultat = NetworkClient.enviarDni(usertlfn, bytes, fileName)
+
+                withContext(Dispatchers.Main) {
+                    serverFileResponse = fileName
+                    txtIdStatus.text = "✓ DNI enviat a la carpeta /uploads/$usertlfn"
+                    txtIdStatus.setTextColor(getColor(android.R.color.holo_green_dark))
+                    Toast.makeText(this@CommercialNewClientActivity, resultat, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    txtIdStatus.text = "Error en la pujada"
+                    txtIdStatus.setTextColor(getColor(android.R.color.holo_red_dark))
                 }
             }
         }
+    }
+
+    // FUNCIÓ DE DESCÀRREGA UNIFICADA I CORREGIDA
+    private fun descarregarIMostrarDni() {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
+        val filename = serverFileResponse
+
+        if (usertlfn.isEmpty()) {
+            Toast.makeText(this, "Cal el telefon per identificar la carpeta", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (filename == null) {
+            Toast.makeText(this, "Encara no has pujat cap DNI", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Passem userId i filename al NetworkClient
+            val imageBytes = NetworkClient.baixarDni(usertlfn, filename)
+
+            withContext(Dispatchers.Main) {
+                if (imageBytes != null) {
+                    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    mostrarDialogPreview(bitmap) // Utilitzem el nom correcte de la funció
+                } else {
+                    Toast.makeText(this@CommercialNewClientActivity, "Error en baixar el fitxer", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun mostrarDialogPreview(bitmap: android.graphics.Bitmap) {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_image_preview, null)
+        val ivPreview = dialogView.findViewById<ImageView>(R.id.ivFullPreview)
+        ivPreview.setImageBitmap(bitmap)
+
+        AlertDialog.Builder(this)
+            .setTitle("DNI recuperat del servidor")
+            .setView(dialogView)
+            .setPositiveButton("Tancar", null)
+            .show()
+    }
+
+    private fun collectData(): RegisterClientRequest? {
+        val company = findViewById<TextInputEditText>(R.id.etCompanyName).text.toString()
+        val email = findViewById<TextInputEditText>(R.id.etClientEmail).text.toString()
+
+        if (company.isEmpty() || email.isEmpty()) {
+            Toast.makeText(this, "Faltan camps obligatoris", Toast.LENGTH_SHORT).show()
+            return null
+        }
+
+        return RegisterClientRequest(
+            companyName = company,
+            industryName = autoIndustry.text.toString(),
+            taxId = findViewById<TextInputEditText>(R.id.etTaxId).text.toString(),
+            currencyId = autoCurrency.text.toString(),
+            correu = email,
+            nom = findViewById<TextInputEditText>(R.id.etFullName).text.toString(),
+            cognoms = "",
+            tlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString(),
+            representativeIdImage = serverFileResponse // Enviem el nom del fitxer ja pujat
+        )
     }
 
     private fun executeRegistration(request: RegisterClientRequest) {
         lifecycleScope.launch {
             when (val result = repository.registerClient(request)) {
-                is Resource.Loading -> {
-                    // Aquí podrías deshabilitar el botón para evitar doble clic
-                }
                 is Resource.Success -> {
-                    Toast.makeText(this@CommercialNewClientActivity, result.data, Toast.LENGTH_LONG).show()
-                    finish() // Cerramos la pantalla y volvemos al Dashboard
+                    Toast.makeText(this@CommercialNewClientActivity, "Client registrat!", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
-                is Resource.Error -> {
-                    // Si C# devuelve "Email ya existe", aparecerá aquí
-                    Toast.makeText(this@CommercialNewClientActivity, "Error: ${result.message}", Toast.LENGTH_LONG).show()
+                is Resource.Error -> Toast.makeText(this@CommercialNewClientActivity, result.message, Toast.LENGTH_SHORT).show()
+                else -> {}
+            }
+        }
+    }
+
+    private fun loadDropdownData() {
+        lifecycleScope.launch {
+            val industryResult = repository.getIndustries()
+            if (industryResult is Resource.Success) {
+                val names = industryResult.data?.map { it.categoria } ?: emptyList()
+                autoIndustry.setAdapter(ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, names))
+            }
+
+            val currencyResult = repository.getCurrencies()
+            if (currencyResult is Resource.Success) {
+                val codes = currencyResult.data?.map { it.id } ?: emptyList()
+                autoCurrency.setAdapter(ArrayAdapter(this@CommercialNewClientActivity, android.R.layout.simple_dropdown_item_1line, codes))
+            }
+        }
+    }
+
+    private fun descarregarIMostrarDni(filename: String) {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
+        lifecycleScope.launch(Dispatchers.IO) {
+            // 1. Baixem els bytes (ja venen desencriptats pel servidor)
+            val imageBytes = NetworkClient.baixarDni(usertlfn ,filename)
+
+            withContext(Dispatchers.Main) {
+                if (imageBytes != null) {
+                    // 2. Convertim bytes a Bitmap
+                    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+                    // 3. Reutilitzem la teva lògica de mostrar el Dialog
+                    mostrarDialogPreview(bitmap)
+                } else {
+                    Toast.makeText(this@CommercialNewClientActivity, "Error en baixar el fitxer", Toast.LENGTH_SHORT).show()
                 }
             }
         }
