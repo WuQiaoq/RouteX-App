@@ -3,6 +3,7 @@ package com.example.routex_app
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -48,12 +49,10 @@ class LoginActivity : AppCompatActivity() {
 
         val etEmail = findViewById<TextInputEditText>(R.id.etEmail)
         val etPassword = findViewById<TextInputEditText>(R.id.etPassword)
-<<<<<<< HEAD
         val btnLogin = findViewById<MaterialButton>(R.id.btnEntrar)
         val tvForgotPassword = findViewById<TextView>(R.id.tvForgotPassword)
-=======
-        val btnLogin = findViewById<MaterialButton>(R.id.btnLogin)
->>>>>>> inicio_comercial
+
+
 
         // Acción del botón Login
         btnLogin.setOnClickListener {
