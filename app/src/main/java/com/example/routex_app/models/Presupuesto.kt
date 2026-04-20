@@ -7,18 +7,18 @@ import kotlinx.serialization.Serializable
 data class Presupuesto(
     val id: Int,
 
-    @SerialName("Valor")
-    val price: String,
+    @SerialName("price")
+    val Valor: String,
 
-    @SerialName("Ruta") // O el nombre exacto que devuelva tu DTO en C#
-    val route: String,
+    @SerialName("route")
+    val Ruta: String,
 
-    @SerialName("Concepto")
-    val description: String,
+    @SerialName("description")
+    val Concepto: String,
 
-    @SerialName("RaoRebuig")
-    val rejection_reason: String?, // Usamos ? porque puede ser null si no está rechazado
+    @SerialName("rejection_reason")
+    val RaoRebuig: String? = null,
 
-    @SerialName("TipusTransportId")
-    val transport_type_id: Int
+    @SerialName("transport_type_id")
+    val TipusTransportId: Int
 )

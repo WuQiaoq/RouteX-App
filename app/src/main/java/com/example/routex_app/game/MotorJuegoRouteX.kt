@@ -26,7 +26,7 @@ class MotorJuegoRouteX(val tipo: String, val onGameOver: () -> Unit) : Applicati
     private var anchoPantalla = 0f
     private var altoPantalla = 0f
     private var gravedad = -2000f
-    private var impulsoSalto = 600f
+    private var impulsoSalto = 800f
     private var velocidadY = 0f
     private var gameState = 0 // 0: Esperando, 1: Jugando, 2: GameOver
     private var puntuacion = 0
@@ -35,9 +35,9 @@ class MotorJuegoRouteX(val tipo: String, val onGameOver: () -> Unit) : Applicati
     private lateinit var rectJugador: Rectangle
     private lateinit var obstaculos: Array<Rectangle>
     private var ultimoTiempoObstaculo: Long = 0
-    private val HUECO_OBSTACULO = 400f // Un poco más de espacio para los JPG
+    private val HUECO_OBSTACULO = 500f // Un poco más de espacio para los JPG
     private val ANCHO_OBSTACULO = 100f
-    private val VELOCIDAD_OBSTACULOS = 450f
+    private val VELOCIDAD_OBSTACULOS = 350f
 
     override fun create() {
         batch = SpriteBatch()

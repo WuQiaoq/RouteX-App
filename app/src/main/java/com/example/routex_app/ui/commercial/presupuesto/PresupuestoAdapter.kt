@@ -12,7 +12,8 @@ import com.example.routex_app.models.Presupuesto
 
 class PresupuestoAdapter(
     private var lista: List<Presupuesto>,
-    private val tipo: String // "SENT", "ACCEPTED", "REJECTED"
+    private val tipo: String, // "SENT", "ACCEPTED", "REJECTED"
+    private val onItemClick: (Presupuesto) -> Unit
 ) : RecyclerView.Adapter<PresupuestoAdapter.PresupuestoViewHolder>() {
 
     class PresupuestoViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -36,40 +37,43 @@ class PresupuestoAdapter(
     override fun onBindViewHolder(holder: PresupuestoViewHolder, position: Int) {
         val presupuesto = lista[position]
 
-        holder.tvPrecio.text = presupuesto.price
-        holder.tvRuta.text = presupuesto.route
+        holder.tvPrecio.text = presupuesto.Valor
+        holder.tvRuta.text = presupuesto.Ruta
 
-        // Configuración visual según el estado
+        // 1. Configurar el clic en todo el ítem
+        holder.itemView.setOnClickListener {
+            onItemClick(presupuesto)
+        }
+
+        // --- Tu lógica de colores y estados se mantiene igual ---
         when (tipo) {
             "SENT" -> {
                 holder.tvEstado.text = "ENVIADO"
-                holder.tvEstado.setBackgroundColor(0xFF64748B.toInt()) // Slate 500
+                holder.tvEstado.setBackgroundColor(0xFF64748B.toInt())
                 holder.layoutMotivo.visibility = View.GONE
                 holder.layoutAcciones.visibility = View.GONE
             }
             "ACCEPTED" -> {
                 holder.tvEstado.text = "ACEPTADO"
-                holder.tvEstado.setBackgroundColor(0xFF10B981.toInt()) // Emerald 500
+                holder.tvEstado.setBackgroundColor(0xFF10B981.toInt())
                 holder.layoutMotivo.visibility = View.GONE
                 holder.layoutAcciones.visibility = View.GONE
             }
             "REJECTED" -> {
                 holder.tvEstado.text = "RECHAZADO"
-                holder.tvEstado.setBackgroundColor(0xFFEF4444.toInt()) // Red 500
+                holder.tvEstado.setBackgroundColor(0xFFEF4444.toInt())
                 holder.layoutMotivo.visibility = View.VISIBLE
                 holder.layoutAcciones.visibility = View.VISIBLE
-                holder.tvMotivo.text = presupuesto.rejection_reason ?: "Sin motivo"
+                holder.tvMotivo.text = presupuesto.RaoRebuig ?: "Sin motivo"
             }
         }
 
-        // Icono según transporte
-        if (presupuesto.transport_type_id == 1) {
+        if (presupuesto.TipusTransportId == 1) {
             holder.ivIcono.setImageResource(R.drawable.placeholder_ship)
         } else {
             holder.ivIcono.setImageResource(android.R.drawable.ic_menu_send)
         }
     }
-
     override fun getItemCount(): Int = lista.size
 
     fun actualizarDatos(nuevaLista: List<Presupuesto>) {
