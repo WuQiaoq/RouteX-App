@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.routex_app.RecentActivity
 
 /**
  * 适配器：负责将 RecentActivity 数据列表绑定到 item_recent_activity.xml 布局上

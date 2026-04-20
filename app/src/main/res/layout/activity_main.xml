@@ -131,13 +131,15 @@
                             android:text="Envios Activos"
                             android:textSize="12sp"
                             android:layout_marginTop="8dp"/>
+
                         <TextView
+                            android:id="@+id/tvActiveCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="12"
+                            android:textColor="#EA580C"
                             android:textSize="24sp"
                             android:textStyle="bold"
-                            android:textColor="#EA580C"/>
+                            tools:text="12" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -164,6 +166,7 @@
                             android:textSize="12sp"
                             android:layout_marginTop="8dp"/>
                         <TextView
+                            android:id="@+id/tvPendingCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="48"
