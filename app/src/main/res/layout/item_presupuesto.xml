@@ -2,121 +2,114 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardBackgroundColor="@android:color/white"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="0dp"
-    app:strokeColor="#E2E8F0"
-    app:strokeWidth="1dp">
+    android:layout_marginBottom="16dp"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tv_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#94A3B8"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="#QUO-1234" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:cardBackgroundColor="#FEF3C7">
-
-            <TextView
-                android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                tools:text="PENDIENTE"
-                tools:textColor="#D97706" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#1A202C"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_id"
-            tools:text="Envío Internacional - Madrid" />
+        <ImageView
+            android:id="@+id/ivPresupuestoIcono"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/placeholder_ship" />
 
         <LinearLayout
-            android:id="@+id/ll_details"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/tv_title">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tvPresupuestoPrecio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$0.00"
+                    android:textColor="#1E293B"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvPresupuestoEstadoBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:textSize="10sp"
+                    android:textColor="#FFFFFF" />
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_date"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvPresupuestoRuta"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawablePadding="6dp"
-                android:textColor="#64748B"
-                android:textSize="12sp"
-                app:drawableStartCompat="@android:drawable/ic_menu_today"
-                app:drawableTint="#94A3B8"
-                tools:text="12 Oct, 2023" />
+                android:text="Ruta cargando..."
+                android:textColor="#64748B" />
 
-            <TextView
-                android:id="@+id/tv_extra_info"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/layoutPresupuestoMotivo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:drawablePadding="6dp"
-                android:textColor="#64748B"
-                android:textSize="12sp"
-                app:drawableStartCompat="@android:drawable/ic_menu_mylocation"
-                app:drawableTint="#94A3B8"
-                tools:text="Valencia, ES" />
+                android:orientation="vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Motivo del rechazo:"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#94A3B8" />
+
+                <TextView
+                    android:id="@+id/tvPresupuestoMotivo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No especificado"
+                    android:textColor="#EF4444"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutPresupuestoAcciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:gravity="end">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPresupuestoEditar"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Editar"
+                    app:icon="@android:drawable/ic_menu_edit" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnPresupuestoBorrar"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Borrar"
+                    android:textColor="#EF4444"
+                    app:icon="@android:drawable/ic_menu_delete"
+                    app:iconTint="#EF4444" />
+            </LinearLayout>
+
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textColor="#1A202C"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_details"
-            tools:text="€1,240.00" />
-
-        <TextView
-            android:id="@+id/tv_action"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#4A5568"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Ver Detalles >" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

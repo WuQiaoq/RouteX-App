@@ -24,7 +24,7 @@
     <string name="active_operations">Operaciones\nActivas</string>
     <string name="rejected">Rechazadas</string>
     <string name="quick_actions">Acciones Rápidas</string>
-    <string name="create_quote">Crear\nPresupuesto</string>
+    <string name="create_new_client">Nuevo Cliente</string>
     <string name="track_milestones">Track\nHitos</string>
     <string name="active_charts">Gráficos\nActivos</string>
     <string name="recent_notifications">Notificaciones Recientes</string>
