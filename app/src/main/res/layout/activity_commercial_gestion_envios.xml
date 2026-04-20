@@ -39,6 +39,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
                 <ImageButton
+                    android:id="@+id/btnSearch"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
@@ -66,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/tvEstadoEtiqueta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ESTADO DEL PROCESO"
@@ -73,6 +75,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
                 <TextView
+                    android:id="@+id/tvPorcentajeCompletado"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -82,6 +85,7 @@
             </RelativeLayout>
 
             <ProgressBar
+                android:id="@+id/pbProgresoEnvio"
                 style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
@@ -90,6 +94,7 @@
                 android:progressDrawable="@drawable/custom_progress_orange" />
 
             <TextView
+                android:id="@+id/tvFaseActual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -113,6 +118,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/tvOrderNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Pedido #ORD-7729"
@@ -120,6 +126,7 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
                         <TextView
+                            android:id="@+id/tvEstadoBadge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -132,6 +139,7 @@
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/tvClientDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Cliente: Industrias Globales S.L."
@@ -149,8 +157,24 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="DETALLES DEL ENVÍO" android:textSize="11sp" android:textStyle="bold" android:textColor="#94A3B8" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:text="📍 Calle de la Innovación, 42..." android:textSize="13sp" android:textColor="#1E293B" />
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="📅 Entrega: 24 Oct, 2023" android:textSize="13sp" android:textColor="#1E293B" />
+
+                            <TextView
+                                android:id="@+id/tvDireccionDetalle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:text="📍 Calle de la Innovación, 42..."
+                                android:textSize="13sp"
+                                android:textColor="#1E293B" />
+
+                            <TextView
+                                android:id="@+id/tvFechaEntrega"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="📅 Entrega: 24 Oct, 2023"
+                                android:textSize="13sp"
+                                android:textColor="#1E293B" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -166,6 +190,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFactura"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -175,11 +200,12 @@
                     <ImageView android:id="@+id/icDone" android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_check_circle_green" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/icDone" android:layout_marginStart="12dp" android:text="Factura Proforma" android:textStyle="bold" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_toEndOf="@id/icDone" android:layout_marginStart="12dp" android:layout_marginTop="18dp" android:text="Subido el 12/10/2023" android:textSize="11sp" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Ver" android:textColor="#F97316" android:textStyle="bold" />
+                    <TextView android:id="@+id/btnVerFactura" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:text="Ver" android:textColor="#F97316" android:textStyle="bold" />
                 </RelativeLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <FrameLayout
+                android:id="@+id/btnSubirContrato"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:layout_marginTop="16dp"
@@ -190,13 +216,20 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical">
-                        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_upload" app:tint="#F97316" />
+                    <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_upload" app:tint="#F97316" />
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Subir Contrato Firmado" android:textStyle="bold" />
-                    <Button style="@style/Widget.MaterialComponents.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SELECCIONAR ARCHIVO" android:textColor="#F97316" />
+                    <Button
+                        android:id="@+id/btnSeleccionarArchivo"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SELECCIONAR ARCHIVO"
+                        android:textColor="#F97316" />
                 </LinearLayout>
             </FrameLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSiguienteFase"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="32dp"

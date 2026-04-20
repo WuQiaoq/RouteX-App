@@ -1,5 +1,7 @@
 package com.example.routex_app.ui.commercial.presupuesto
 
+
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routex_app.R
+import com.example.routex_app.commercial.CommercialGestionEnviosActivity
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.CommercialRepository
@@ -33,24 +36,36 @@ class PresupuestoListFragment : Fragment(R.layout.fragment_presupuesto_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1. Recuperar parámetros de la instancia
         val userId = arguments?.getInt("USER_ID") ?: 0
         val token = arguments?.getString("TOKEN") ?: ""
         val tipo = arguments?.getString("TIPO") ?: "SENT"
 
-        // 2. Configurar Arquitectura MVVM
+        // Configurar MVVM
         val apiService = ApiService(KtorClient.httpClient)
         val repository = CommercialRepository(apiService)
         val factory = PresupuestosViewModelFactory(repository)
         viewModel = ViewModelProvider(this, factory)[PresupuestosViewModel::class.java]
 
-        // 3. Inicializar RecyclerView con el nuevo Adaptador
+        // 3. Inicializar RecyclerView con el Listener de Clic
         val rv = view.findViewById<RecyclerView>(R.id.rvPresupuestos)
-        adaptador = PresupuestoAdapter(emptyList(), tipo)
+
+        // --- AQUÍ CONECTAMOS EL CLIC ---
+        adaptador = PresupuestoAdapter(emptyList(), tipo) { presupuesto ->
+            // Definimos la navegación a la actividad de gestión (la del XML de detalles)
+            val intent = Intent(requireContext(), CommercialGestionEnviosActivity::class.java).apply {
+                putExtra("PEDIDO_ID", presupuesto.id.toString())
+                putExtra("RUTA", presupuesto.Ruta)
+                putExtra("CONCEPTO", presupuesto.Concepto)
+                putExtra("PRECIO", presupuesto.Valor)
+                putExtra("TOKEN", token) // Pasamos el token para futuras gestiones
+            }
+            startActivity(intent)
+        }
+
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adaptador
 
-        // 4. Suscribirse al estado del ViewModel
+        // Suscribirse al estado del ViewModel
         lifecycleScope.launchWhenStarted {
             viewModel.presupuestosState.collectLatest { recurso ->
                 when (recurso) {
@@ -60,14 +75,11 @@ class PresupuestoListFragment : Fragment(R.layout.fragment_presupuesto_list) {
                     is Resource.Error -> {
                         Toast.makeText(requireContext(), recurso.message, Toast.LENGTH_LONG).show()
                     }
-                    is Resource.Loading -> {
-                        // Opcional: Mostrar un indicador de carga
-                    }
+                    is Resource.Loading -> { /* Spinner si quieres */ }
                 }
             }
         }
 
-        // 5. Cargar los datos
         viewModel.fetchPresupuestos(userId, token, tipo)
     }
 }
