@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        val etEmail = findViewById<TextInputEditText>(R.id.etCorreo)
+        val etEmail = findViewById<TextInputEditText>(R.id.etEmail)
         val etPassword = findViewById<TextInputEditText>(R.id.etPassword)
 <<<<<<< HEAD
         val btnLogin = findViewById<MaterialButton>(R.id.btnEntrar)
