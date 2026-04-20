@@ -197,7 +197,6 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:contentDescription="Editar teléfono"
-                            android:src="@drawable/ic_chevron_right"
                             app:tint="#D1D5DB" />
                     </LinearLayout>
                 </LinearLayout>
@@ -263,7 +262,7 @@
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:contentDescription="Ir a cambiar contraseña"
-                            android:src="@drawable/ic_chevron_right"
+
                             app:tint="#D1D5DB" />
                     </LinearLayout>
 
