@@ -53,6 +53,11 @@
             android:name=".commercial.CommercialGestionEnviosActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".commercial.EnviosActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

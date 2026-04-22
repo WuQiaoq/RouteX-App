@@ -3,6 +3,7 @@ package com.example.routex_app.repository
 
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.models.CommercialDashboardResponse
+import com.example.routex_app.models.Oferta
 import com.example.routex_app.models.Presupuesto
 import com.example.routex_app.utils.Resource
 
@@ -47,4 +48,14 @@ class CommercialRepository(private val apiService: ApiService) {
             Resource.Error(e.message ?: "Error al obtener presupuestos aceptados")
         }
     }
+
+    suspend fun getOfertasResource(token: String): Resource<List<Oferta>> {
+        return try {
+            val response = apiService.getOfertas(token)
+            Resource.Success(response) // Aquí response DEBE ser List<Oferta>
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al conectar con el servidor")
+        }
+    }
+
 }
