@@ -1,11 +1,15 @@
 package com.example.routex_app.repository
 
 
+import com.example.routex_app.models.ClienteActivo
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.models.CommercialDashboardResponse
 import com.example.routex_app.models.Oferta
 import com.example.routex_app.models.Presupuesto
+import com.example.routex_app.models.UserProfileModel
 import com.example.routex_app.utils.Resource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class CommercialRepository(private val apiService: ApiService) {
 
@@ -55,6 +59,25 @@ class CommercialRepository(private val apiService: ApiService) {
             Resource.Success(response) // Aquí response DEBE ser List<Oferta>
         } catch (e: Exception) {
             Resource.Error(e.localizedMessage ?: "Error al conectar con el servidor")
+        }
+    }
+
+    suspend fun getActiveClients(userId: Int, token: String): Resource<List<ClienteActivo>> {
+        return try {
+            // Llama al endpoint de C#: commercial/active-clients/{userId}
+            val response = apiService.getActiveClients(token, userId)
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(e.message ?: "Error al obtener la lista de clientes activos")
+        }
+    }
+
+    suspend fun getUserProfile(token: String, userId: Int): Resource<UserProfileModel> {
+        return try {
+            val response = apiService.getUserProfile(token, userId)
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al obtener perfil")
         }
     }
 
