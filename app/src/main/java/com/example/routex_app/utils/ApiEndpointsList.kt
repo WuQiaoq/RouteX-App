@@ -5,10 +5,10 @@ object ApiEndpointsList {
     //const val BASE_URL = " http://localhost:8080/api/"
     const val BASE_URL = "http://10.0.2.2:8080/api/" //solo emulacion android studio local
     // La ruta que creamos en el controlador de C#
-    //const val BASE_URL_CS = "http://10.0.2.2:5198/api/"
+    const val BASE_URL_CS = "http://10.0.2.2:5198/api/"
 
     const val BASE_URL_PHP = "https://approutex.josepguiudev.tech/api/"
-    const val BASE_URL_CS = "http://routex-apicsharp-6bahrx-f06c64-51-83-192-177.traefik.me/api/"
+    //const val BASE_URL_CS = "http://routex-apicsharp-6bahrx-f06c64-51-83-192-177.traefik.me/api/"
     // ruta al servido de Springboot en docker
     const val BASE_URL_SERVER = "http://10.0.2.2:5199/"
 
@@ -28,5 +28,7 @@ object ApiEndpointsList {
     const val DNI_DOWNLOAD = "dni/download/"
 
     const val LISTADO_OFERRTAS = "ofertas"
+    const val LSITADO_CLIENTES = "commercial/active-clients/"
+    const val PERFIL_COMMERCIAL = "commercial/profile/"
 
 }

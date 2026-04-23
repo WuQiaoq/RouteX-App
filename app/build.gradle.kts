@@ -94,7 +94,7 @@ dependencies {
     implementation("io.ktor:ktor-client-core:2.3.7")
 
     // --- LIBGDX ---
-    val gdxVersion = "1.12.1"
+    val gdxVersion = "1.13.0"
     implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
     implementation("com.badlogicgames.gdx:gdx-backend-android:$gdxVersion")
 

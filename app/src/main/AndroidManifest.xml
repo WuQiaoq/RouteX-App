@@ -50,12 +50,22 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 
         <activity
-            android:name=".commercial.CommercialGestionEnviosActivity"
+            android:name=".commercial.DetallesEnvioActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".commercial.EnviosActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".commercial.ClientesActivosActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".commercial.PerfilActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

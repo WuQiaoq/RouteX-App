@@ -52,16 +52,23 @@ class EnviosActivity : AppCompatActivity() {
                             val oferta = lista[0]
 
                             binding.apply {
-                                // Usamos .toString() o el operador elvis (?:) con un String
-                                // para garantizar que el tipo sea CharSequence
                                 tvOrigin.text = oferta.portOrigen?.nom ?: "Origen no definido"
                                 tvDest.text = oferta.portDesti?.nom ?: "Destino no definido"
-
-                                // Si usas el ID del pedido, conviértelo a String explícitamente
                                 tvOrderNumber.text = "Pedido #${oferta.id}"
-
-                                // Para el estado, accedemos al objeto anidado que vimos en el LOG
                                 tvStatus.text = oferta.estadoInfo?.estat ?: "Pendiente"
+
+                                // --- AÑADE ESTO ---
+                                // Suponiendo que tu CardView o el contenedor principal en el XML se llama 'cardOferta'
+                                // Si no tiene ID, ponle uno al contenedor principal en activity_commercial_envios.xml
+                                root.setOnClickListener {
+                                    val intent = android.content.Intent(this@EnviosActivity, DetallesEnvioActivity::class.java)
+                                    intent.putExtra("PEDIDO_ID", oferta.id.toString())
+                                    intent.putExtra("CLIENTE", "ID Cliente: ${oferta.id}") // Ajustar según campo real
+                                    intent.putExtra("ORIGEN", oferta.portOrigen?.nom ?: "N/A")
+                                    intent.putExtra("DESTINO", oferta.portDesti?.nom ?: "N/A")
+                                    intent.putExtra("ESTADO", oferta.estadoInfo?.estat ?: "PENDIENTE")
+                                    startActivity(intent)
+                                }
                             }
                         }
                     }
