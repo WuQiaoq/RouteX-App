@@ -85,6 +85,7 @@
                 app:hintEnabled="false">
 
                 <AutoCompleteTextView
+                    android:id="@+id/actvOrigen"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Seleccionar ciudad o puerto"
@@ -125,6 +126,7 @@
                 app:hintEnabled="false">
 
                 <AutoCompleteTextView
+                    android:id="@+id/actvDestino"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Seleccionar ciudad o puerto"
@@ -144,6 +146,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
+                android:id="@+id/cgIncoterm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -216,6 +219,7 @@
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTipoMercancia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ej. Electrónica, Textil..."
@@ -248,6 +252,7 @@
                 app:hintEnabled="false">
 
                 <AutoCompleteTextView
+                    android:id="@+id/actvTipoContenedor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Carga General"
@@ -280,6 +285,7 @@
                 app:hintEnabled="false">
 
                 <AutoCompleteTextView
+                    android:id="@+id/actvCantidad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ej. 1, 2, 5..."
@@ -312,6 +318,7 @@
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:gravity="top|start"
@@ -323,6 +330,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEnviarSolicitud"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="Enviar Solicitud"

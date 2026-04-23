@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     kotlin("plugin.serialization") version "1.9.0"
+
 }
 
 // 1. Configuración personalizada que SÍ permite ser resuelta (extraer archivos)
@@ -78,6 +79,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
     // Ktor & Utils
     implementation("com.google.android.material:material:1.12.0")

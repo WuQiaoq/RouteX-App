@@ -1,4 +1,4 @@
-package com.example.routex_app // 根据你的实际包名调整
+package com.example.routex_app
 
 import android.os.Bundle
 import android.widget.Toast
@@ -19,7 +19,6 @@ import com.example.routex_app.databinding.ActivityMainBinding
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.ClientRepository
-import com.example.routex_app.ui.main.MainState
 import com.example.routex_app.ui.main.MainViewModel
 import kotlinx.coroutines.launch
 
@@ -74,20 +73,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun actualizarUI(state: MainState) {
-        if (state.isLoading) {
-            binding.tvWelcomeName.text = "Cargando, ${state.userName}..."
-        } else {
-            binding.tvWelcomeName.text = "Bienvenido de nuevo, ${state.userName}"
-        }
+        binding.tvWelcomeName.text =
+            if (state.isLoading) "Cargando, ${state.userName}..."
+            else "Bienvenido de nuevo, ${state.userName}"
 
         binding.tvActiveCount.text = state.activeCount.toString()
         binding.tvPendingCount.text = state.pendingCount.toString()
 
-        if (state.recentActivities.isNotEmpty()) {
-            adapter.updateData(state.recentActivities)
-        }
+        adapter.updateData(state.recentActivities)
 
-        // 错误提示
         state.error?.let {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         }

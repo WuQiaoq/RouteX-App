@@ -9,7 +9,7 @@ data class RegisterClientRequest(
     val companyName: String,
     val industryName: String, // Lo que el usuario escribió o seleccionó
     val taxId: String,
-    val currencyId: String,   // El ID de la moneda (ej: "EUR")
+    val currencyId: String,
     val correu: String,
     val nom: String,
     val cognoms: String,

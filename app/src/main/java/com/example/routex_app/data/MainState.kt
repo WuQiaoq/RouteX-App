@@ -1,6 +1,6 @@
 package com.example.routex_app.data
 
-import com.example.routex_app.data.RecentActivity
+import com.example.routex_app.models.RecentActivity
 
 data class MainState(
     val isLoading: Boolean = false,

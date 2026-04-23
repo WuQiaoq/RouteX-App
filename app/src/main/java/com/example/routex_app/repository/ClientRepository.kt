@@ -1,6 +1,8 @@
 package com.example.routex_app.repository
 
+import OferteRequest
 import com.example.routex_app.models.CurrencyModel
+import com.example.routex_app.models.DashboardResponse
 import com.example.routex_app.models.IndustryModel
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.network.ApiService
@@ -51,6 +53,20 @@ class ClientRepository(private val apiService: ApiService) {
             }
         } catch (e: Exception) {
             Resource.Error("Error de red: ${e.localizedMessage}")
+        }
+    }
+
+    //
+    suspend fun createOferte(request: OferteRequest): Resource<String> {
+        return try {
+            val response = apiService.createOferte(request)
+            if (response.status == HttpStatusCode.Created || response.status == HttpStatusCode.OK) {
+                Resource.Success("Solicitud enviada correctamente")
+            } else {
+                Resource.Error("Error al enviar la solicitud")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Fallo de conexión")
         }
     }
 }

@@ -1,9 +1,9 @@
-package com.example.routex_app.data
+package com.example.routex_app.models
 
 data class RecentActivity(
     val title: String,
     val description: String,
     val status: String,
     val date: String,
-    val iconResId: Int // 存储图片资源的 ID，如 R.drawable.ic_shipment
+    val iconResId: Int
 )

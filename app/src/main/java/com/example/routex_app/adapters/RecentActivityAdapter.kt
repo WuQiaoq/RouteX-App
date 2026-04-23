@@ -1,4 +1,4 @@
-package com.example.routex_app.adapters // 确保你的包名正确
+package com.example.routex_app.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,9 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routex_app.R
-import com.example.routex_app.data.RecentActivity
+import com.example.routex_app.models.RecentActivity
 
-// ⚠️ 注意这里的 var
 class RecentActivityAdapter(private var activities: List<RecentActivity>) :
     RecyclerView.Adapter<RecentActivityAdapter.ViewHolder>() {
 
