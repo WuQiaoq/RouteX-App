@@ -25,7 +25,7 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                 error = null
             )
         }
-
+/*
         viewModelScope.launch {
 
             when (val result = repository.getDashboard(token, userId)) {
@@ -68,6 +68,6 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                     }
                 }
             }
-        }
+        }*/
     }
 }

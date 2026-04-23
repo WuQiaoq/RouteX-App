@@ -1,6 +1,6 @@
 package com.example.routex_app.network
 
-import OferteRequest
+import com.example.routex_app.models.OferteRequest
 import com.example.routex_app.models.CommercialDashboardResponse
 import com.example.routex_app.models.CurrencyModel
 import com.example.routex_app.models.IndustryModel
@@ -77,8 +77,11 @@ class ApiService(private val client: HttpClient) {
 
     //Enviar el solicitud de presupuesto
     suspend fun createOferte(request: OferteRequest) =
-        client.post("https://10.0.2.2:7110/api/Ofertes") {
+        client.post("http://10.0.2.2:5105/api/Ofertes") {
             contentType(ContentType.Application.Json)
             setBody(request)
         }
+
+    suspend fun getPorts() =
+        client.get("http://10.0.2.2:5105/api/Ports")
 }

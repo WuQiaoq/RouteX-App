@@ -1,9 +1,10 @@
 package com.example.routex_app.repository
 
-import OferteRequest
+import com.example.routex_app.models.OferteRequest
 import com.example.routex_app.models.CurrencyModel
 import com.example.routex_app.models.DashboardResponse
 import com.example.routex_app.models.IndustryModel
+import com.example.routex_app.models.PortModel
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.utils.Resource
@@ -64,6 +65,19 @@ class ClientRepository(private val apiService: ApiService) {
                 Resource.Success("Solicitud enviada correctamente")
             } else {
                 Resource.Error("Error al enviar la solicitud")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Fallo de conexión")
+        }
+    }
+
+    suspend fun getPorts(): Resource<List<PortModel>> {
+        return try {
+            val response = apiService.getPorts()
+            if (response.status == HttpStatusCode.OK) {
+                Resource.Success(response.body())
+            } else {
+                Resource.Error("Error al cargar puertos")
             }
         } catch (e: Exception) {
             Resource.Error(e.localizedMessage ?: "Fallo de conexión")
