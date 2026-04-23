@@ -5,7 +5,9 @@ import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.routex_app.commercial.CommercialHomeActivity
+import com.example.routex_app.commercial.EnviosActivity
 import com.example.routex_app.commercial.PresupuestosActivity
+import com.example.routex_app.databinding.ActivityEnviosBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 object NavigationUtils {
@@ -27,6 +29,7 @@ object NavigationUtils {
                     // Aquí podrías añadir ClientsActivity cuando esté lista
                     null
                 }
+                R.id.nav_ofertas -> Intent(activity, EnviosActivity::class.java)
                 else -> null
             }
 

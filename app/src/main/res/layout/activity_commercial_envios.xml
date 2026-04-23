@@ -35,6 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
+                android:id="@+id/btnNotifications"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
                 android:layout_marginEnd="16dp"
@@ -59,11 +60,13 @@
                 app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
             <HorizontalScrollView
+                android:id="@+id/filtersScroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:scrollbars="none"
                 app:layout_constraintTop_toBottomOf="@id/searchBar">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,6 +74,7 @@
                     android:paddingHorizontal="20dp">
 
                     <Button
+                        android:id="@+id/btnFilterAll"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:backgroundTint="#F97316"
@@ -79,6 +83,7 @@
                         app:cornerRadius="20dp" />
 
                     <Button
+                        android:id="@+id/btnFilterTransit"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
@@ -90,6 +95,7 @@
                         app:strokeColor="#E2E8F0" />
 
                     <Button
+                        android:id="@+id/btnFilterPort"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
@@ -107,16 +113,18 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
         <LinearLayout
+            android:id="@+id/containerOfertas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOferta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -132,33 +140,41 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <ImageView
                             android:id="@+id/iconType"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:padding="10dp"
                             android:src="@drawable/placeholder_ship" />
+
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/iconType"
                             android:layout_marginStart="12dp"
+                            android:layout_toEndOf="@id/iconType"
                             android:orientation="vertical">
+
                             <TextView
+                                android:id="@+id/tvOrderNumber"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="#SHP-99281"
                                 android:textColor="#1E293B"
-                                android:textStyle="bold"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
                             <TextView
+                                android:id="@+id/tvCargaTipo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="CARGA MARÍTIMA"
                                 android:textColor="#94A3B8"
-                                android:textSize="11sp"/>
+                                android:textSize="11sp" />
                         </LinearLayout>
+
                         <TextView
+                            android:id="@+id/tvStatus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -186,6 +202,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <View
+                            android:id="@+id/viewLine"
                             android:layout_width="0dp"
                             android:layout_height="1dp"
                             android:layout_marginHorizontal="8dp"
@@ -216,13 +233,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
+
                         <TextView
+                            android:id="@+id/tvArrivalDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="🕒 Llegada: 24 Oct, 2023"
                             android:textColor="#64748B"
                             android:textSize="13sp" />
+
                         <TextView
+                            android:id="@+id/btnDetails"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -235,6 +256,7 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

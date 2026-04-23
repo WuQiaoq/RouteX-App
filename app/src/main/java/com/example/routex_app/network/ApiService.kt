@@ -6,6 +6,7 @@ import com.example.routex_app.models.CurrencyModel
 import com.example.routex_app.models.IndustryModel
 import com.example.routex_app.models.LoginRequest
 import com.example.routex_app.models.LoginResponse
+import com.example.routex_app.models.Oferta
 import com.example.routex_app.models.Presupuesto
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.utils.ApiEndpointsList
@@ -74,11 +75,11 @@ class ApiService(private val client: HttpClient) {
         }
     }
 
-
-    //Enviar el solicitud de presupuesto
-    suspend fun createOferte(request: OferteRequest) =
-        client.post("https://10.0.2.2:7110/api/Ofertes") {
+    suspend fun getOfertas(token: String): List<Oferta> {
+        return client.get(ApiEndpointsList.BASE_URL_PHP + ApiEndpointsList.LISTADO_OFERRTAS) {
+            header(HttpHeaders.Authorization, "Bearer $token")
             contentType(ContentType.Application.Json)
-            setBody(request)
-        }
+        }.body()
+    }
+
 }
