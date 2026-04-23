@@ -78,6 +78,7 @@
                     app:layout_constraintTop_toBottomOf="@id/ivProfile" />
 
                 <TextView
+                    android:id="@+id/tvUserSubtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Departamento de Logística\nID Colaborador: LOG-98234"

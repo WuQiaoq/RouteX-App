@@ -2,7 +2,6 @@ package com.example.routex_app.commercial
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -25,7 +24,6 @@ class PerfilActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPerfilCommercialBinding
 
-    // Factory específico inyectando el repositorio
     private val viewModel: ProfileViewModel by viewModels {
         val apiService = ApiService(KtorClient.httpClient)
         ProfileViewModelFactory(CommercialRepository(apiService))
@@ -36,30 +34,23 @@ class PerfilActivity : AppCompatActivity() {
         binding = ActivityPerfilCommercialBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 1. Recuperar los datos del Intent (Igual que en ClientesActivosActivity)
         val token = intent.getStringExtra("USER_TOKEN") ?: ""
         val userId = intent.getIntExtra("USER_ID", -1)
 
         setupUI()
         observeViewModel()
 
-        // 2. Configurar el menú inferior (NavigationUtils se encarga de pasar los tokens al navegar)
         NavigationUtils.setupBottomNavigation(this, binding.bottomNav, R.id.nav_profile)
 
-        // 3. Validar y llamar a la API
         if (userId != -1 && token.isNotEmpty()) {
             viewModel.fetchUserProfile(userId, token)
         } else {
             Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_LONG).show()
-            // Si no hay token, volvemos al login
-            val loginIntent = Intent(this, com.example.routex_app.auth.LoginActivity::class.java)
-            startActivity(loginIntent)
-            finish()
+            irAlLogin()
         }
     }
 
     private fun setupUI() {
-        // Configuramos los iconos de los layouts incluidos manualmente
         binding.optionEmail.ivIcon.setImageResource(R.drawable.ic_email)
         binding.optionPhone.ivIcon.setImageResource(R.drawable.ic_phone)
         binding.optionPassword.ivIcon.setImageResource(R.drawable.ic_lock)
@@ -67,11 +58,7 @@ class PerfilActivity : AppCompatActivity() {
         binding.switchPush.ivIcon.setImageResource(R.drawable.ic_notifications)
 
         binding.btnLogout.setOnClickListener {
-            // Para cerrar sesión simplemente limpiamos el stack y vamos al login
-            val intent = Intent(this, com.example.routex_app.auth.LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
+            irAlLogin()
         }
     }
 
@@ -79,13 +66,9 @@ class PerfilActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.profile.collectLatest { resource ->
                 when (resource) {
-                    is Resource.Loading -> {
-                        // Opcional: mostrar un loader
-                    }
+                    is Resource.Loading -> { /* Shimmer o Loader */ }
                     is Resource.Success -> {
-                        resource.data?.let { profile ->
-                            updateFields(profile)
-                        }
+                        resource.data?.let { updateFields(it) }
                     }
                     is Resource.Error -> {
                         Toast.makeText(this@PerfilActivity, resource.message, Toast.LENGTH_LONG).show()
@@ -98,7 +81,7 @@ class PerfilActivity : AppCompatActivity() {
     private fun updateFields(profile: UserProfileModel) {
         with(binding) {
             tvUserName.text = profile.fullName
-            // ID de colaborador generado en tu DTO de C#
+            // Asegúrate que en el XML el ID sea tvUserSubtitle
             tvUserSubtitle.text = "${profile.roleName} | ${profile.companyName}\nID: ${profile.colaboradorId}"
 
             optionEmail.tvTitle.text = "Correo Electrónico"
@@ -113,5 +96,13 @@ class PerfilActivity : AppCompatActivity() {
             switch2FA.tvTitle.text = "Autenticación de dos pasos"
             switchPush.tvTitle.text = "Notificaciones Push"
         }
+    }
+
+    private fun irAlLogin() {
+        // Corrección de la ruta del paquete según tus errores de 'auth'
+        val intent = Intent(this, com.example.routex_app.LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

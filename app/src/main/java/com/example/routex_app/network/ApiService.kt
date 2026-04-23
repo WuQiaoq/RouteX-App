@@ -66,10 +66,7 @@ class ApiService(private val client: HttpClient) {
         }.body()
 
     suspend fun getUserProfile(token: String, userId: Int): UserProfileModel {
-        // Asegúrate de que la URL coincida con tu controlador de C#
-        val url = "${ApiEndpointsList.BASE_URL_CS}users/profile/$userId"
-
-        return client.get(url) {
+        return client.get( ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.PERFIL_COMMERCIAL + userId) {
             header(HttpHeaders.Authorization, "Bearer $token")
             contentType(ContentType.Application.Json)
         }.body()

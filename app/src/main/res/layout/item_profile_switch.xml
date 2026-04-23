@@ -3,43 +3,52 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="72dp"
     android:paddingHorizontal="16dp">
 
-    <ImageView
-        android:id="@+id/ivIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_notifications"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/iconContainer"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cardBackgroundColor="#F8FAFC"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="#F97316" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:tint="#1E293B" />
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/switchComponent"
-        app:layout_constraintStart_toEndOf="@id/ivIcon"
+        app:layout_constraintStart_toEndOf="@id/iconContainer"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvTitle"
-            style="@style/ProfileOptionTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notificaciones Push" />
+            android:textColor="#1E293B"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvSubtitle"
-            style="@style/ProfileOptionSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recibe alertas en tiempo real" />
+            android:textColor="#64748B"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
@@ -49,6 +58,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:useMaterialThemeColors="true" />
+        app:thumbTint="#FFFFFF"
+        app:trackTint="#F97316" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
