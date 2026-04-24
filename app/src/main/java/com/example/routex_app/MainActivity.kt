@@ -21,6 +21,7 @@ import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.ClientRepository
 import com.example.routex_app.ui.main.MainViewModel
 import kotlinx.coroutines.launch
+import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -102,9 +103,56 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Sin notificaciones nuevas", Toast.LENGTH_SHORT).show()
         }
 
+        // solicitar presupuesto
         binding.btnRequestQuote.setOnClickListener {
-            Toast.makeText(this, "Solicitando presupuesto...", Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(this, RequestQuoteActivity::class.java))
+            val token = this.intent.getStringExtra("USER_TOKEN") ?: ""
+            val userId = this.intent.getIntExtra("USER_ID", -1)
+            val userName = this.intent.getStringExtra("USER_NAME") ?: "Cliente"
+
+            val nextIntent = Intent(this, SolicitarPresupuestoActivity::class.java).apply {
+                putExtra("USER_TOKEN", token)
+                putExtra("USER_ID", userId)
+                putExtra("USER_NAME", userName)
+            }
+
+            startActivity(nextIntent)
+        }
+
+        binding.bottomNavigation.selectedItemId = R.id.nav_home
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+
+                R.id.nav_home -> {
+                    true
+                }
+
+                R.id.nav_budgets -> {
+                    Toast.makeText(this, "Cotizar", Toast.LENGTH_SHORT).show()
+                    // startActivity(Intent(this, PresupuestosTotalActivity::class.java))
+                    true
+                }
+
+                R.id.nav_shipping -> {
+                    Toast.makeText(this, "Envíos", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, EnviosTotalActivity::class.java))
+                    true
+                }
+
+                R.id.nav_chat -> {
+                    Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show()
+                    // startActivity(Intent(this, ChatActivity::class.java))
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
+                    // startActivity(Intent(this, PerfilActivity::class.java))
+                    true
+                }
+
+                else -> false
+            }
         }
 
     }

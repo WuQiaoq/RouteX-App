@@ -1,9 +1,7 @@
 package com.example.routex_app
 
+import android.content.Intent
 import android.os.Bundle
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -19,11 +17,18 @@ import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.ClientRepository
 import com.example.routex_app.utils.Resource
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class SolicitarPresupuestoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySolicitarPresupuestoBinding
     private var portsList: List<PortModel> = emptyList()
+
+    private var token: String = ""
+    private var userId: Int = -1
+    private var userName: String = "Cliente"
 
     private val repository by lazy {
         ClientRepository(ApiService(KtorClient.httpClient))
@@ -36,7 +41,18 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
         binding = ActivitySolicitarPresupuestoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        token = intent.getStringExtra("USER_TOKEN") ?: ""
+        userId = intent.getIntExtra("USER_ID", -1)
+        userName = intent.getStringExtra("USER_NAME") ?: "Cliente"
+
+        if (token.isEmpty() || userId == -1) {
+            Toast.makeText(this, "Error: Sesión no válida", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
         setupWindowInsets()
+        setupBottomNavigation()
         loadPorts()
         setupListeners()
     }
@@ -49,35 +65,64 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.selectedItemId = R.id.nav_budgets
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+
+                R.id.nav_home -> {
+                    val nextIntent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("USER_TOKEN", token)
+                        putExtra("USER_ID", userId)
+                        putExtra("USER_NAME", userName)
+                    }
+                    startActivity(nextIntent)
+                    finish()
+                    true
+                }
+
+                R.id.nav_budgets -> {
+
+                    true
+                }
+
+                R.id.nav_shipping -> {
+                    Toast.makeText(this, "Envíos", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, EnviosTotalActivity::class.java))
+                    true
+                }
+
+                R.id.nav_chat -> {
+                    Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
     private fun setupListeners() {
+
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
         binding.btnEnviarSolicitud.setOnClickListener {
 
             val origen = binding.actvOrigen.text.toString().trim()
             val destino = binding.actvDestino.text.toString().trim()
-
-            val portOrigenId = portsList.find { it.nom == origen }?.id
-            val portDestiId = portsList.find { it.nom == destino }?.id
-
-            if (portOrigenId == null || portDestiId == null) {
-                Toast.makeText(this, "Selecciona un origen y destino válidos", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
             val cantidadStr = binding.etCantidad.text.toString().trim()
             val tipoMercancia = binding.etTipoMercancia.text.toString().trim()
             val descripcionDetallada = binding.etDescripcion.text.toString().trim()
 
-            val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-
-            val incotermMap = mapOf(
-                R.id.chip_exw to 1017,
-                R.id.chip_fob to 1018,
-                R.id.chip_cif to 1019,
-                R.id.chip_ddp to 1020,
-                R.id.chip_dap to 1021
-            )
-
-            val selectedIncotermChipId = binding.cgIncoterm.checkedChipId
-            val incotermIdNullable = incotermMap[selectedIncotermChipId]
+            val portOrigenId = portsList.find { it.nom == origen }?.id
+            val portDestiId = portsList.find { it.nom == destino }?.id
 
             val errorMessage = when {
                 origen.isEmpty() || destino.isEmpty() || cantidadStr.isEmpty() ->
@@ -86,8 +131,8 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
                 cantidadStr.toIntOrNull() == null ->
                     "Cantidad inválida"
 
-                incotermIdNullable == null ->
-                    "Selecciona un incoterm"
+                portOrigenId == null || portDestiId == null ->
+                    "Selecciona un origen y destino válidos"
 
                 else -> null
             }
@@ -97,17 +142,25 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // the Chip -> to find the incotermId in the map
+            val incotermMap = mapOf(
+                R.id.chip_exw to 1017,
+                R.id.chip_fob to 1018,
+                R.id.chip_cif to 1019,
+                R.id.chip_ddp to 1020,
+                R.id.chip_dap to 1021
+            )
+
             val incotermId = incotermMap[binding.cgIncoterm.checkedChipId]
-                // if the user did not select the chip::
                 ?: run {
                     Toast.makeText(this, "Selecciona un incoterm", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
+            val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
             val request = OferteRequest(
                 incotermId = incotermId,
-                clientId = 1008,
+                clientId = userId,
                 tipusValidacioId = 1,
                 estatOfertaId = 1,
                 operadorId = 13,
@@ -150,13 +203,13 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun loadPorts() {
         lifecycleScope.launch {
             when (val result = repository.getPorts()) {
 
                 is Resource.Success -> {
                     portsList = result.data ?: emptyList()
-
                     val nombres = portsList.map { it.nom }
 
                     val adapterPorts = ArrayAdapter(
@@ -167,7 +220,6 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
 
                     binding.actvOrigen.setAdapter(adapterPorts)
                     binding.actvDestino.setAdapter(adapterPorts)
-
                 }
 
                 is Resource.Error -> {

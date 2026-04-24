@@ -6,6 +6,7 @@ import com.example.routex_app.models.CurrencyModel
 import com.example.routex_app.models.DashboardResponse
 import com.example.routex_app.models.IndustryModel
 import com.example.routex_app.models.PortModel
+import com.example.routex_app.models.Presupuesto
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.utils.Resource
@@ -92,6 +93,15 @@ class ClientRepository(private val apiService: ApiService) {
             Resource.Success(response)
         } catch (e: Exception) {
             Resource.Error(e.localizedMessage ?: "Error al cargar dashboard")
+        }
+    }
+
+    suspend fun getEnvios(token: String, userId: Int): Resource<List<Presupuesto>> {
+        return try {
+            val data = apiService.getAcceptedQuotes(token, userId)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar envíos")
         }
     }
 }

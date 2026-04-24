@@ -72,6 +72,14 @@
         <activity
             android:name=".SolicitarPresupuestoActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".EnviosTotalActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DetallesEnvioActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -71,4 +71,25 @@ class ApiService(private val client: HttpClient) {
             contentType(ContentType.Application.Json)
         }.body()
     }
+
+    //Enviar el solicitud de presupuesto
+    suspend fun createOferte(request: OferteRequest) =
+        client.post(ApiEndpointsList.BASE_URL_CS+ ApiEndpointsList.CLIENTE_OFERTAS) {
+            contentType(ContentType.Application.Json)
+            setBody(request)
+        }
+
+    suspend fun getClientDashboard(
+        token: String,
+        userId: Int
+    ): ClientDashboardDto {
+        return client.get(ApiEndpointsList.BASE_URL_CS+ ApiEndpointsList.CLIENTE_DASHBOARD + userId) {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+    }
+
+    // puertos de solicitud presupuesto
+    suspend fun getPorts() =
+        client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.PORT)
+
 }
