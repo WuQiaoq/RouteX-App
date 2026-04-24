@@ -15,7 +15,8 @@ object KtorClient {
         install(ContentNegotiation) {
             json(Json {
                 ignoreUnknownKeys = true // Por si PHP manda datos extra que no usamos
-                isLenient = true         // Para ser flexible con el formato JSON
+                isLenient = true
+                encodeDefaults = true// Para ser flexible con el formato JSON
             })
         }
 

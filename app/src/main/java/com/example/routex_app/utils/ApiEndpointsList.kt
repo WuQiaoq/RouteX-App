@@ -32,4 +32,8 @@ object ApiEndpointsList {
     const val LSITADO_CLIENTES = "commercial/active-clients/"
     const val PERFIL_COMMERCIAL = "commercial/profile/"
 
+    const val CLIENTE_OFERTAS  = "Ofertes"
+    const val CLIENTE_DASHBOARD = "client/dashboard/"
+    const val PORT = "Ports"
+
 }

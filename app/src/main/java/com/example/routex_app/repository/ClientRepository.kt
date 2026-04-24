@@ -2,9 +2,13 @@ package com.example.routex_app.repository
 
 import OferteRequest
 import com.example.routex_app.models.CommercialDashboardResponse
+import com.example.routex_app.models.ClientDashboardDto
+import com.example.routex_app.models.OferteRequest
 import com.example.routex_app.models.CurrencyModel
 import com.example.routex_app.models.DashboardResponse
 import com.example.routex_app.models.IndustryModel
+import com.example.routex_app.models.PortModel
+import com.example.routex_app.models.Presupuesto
 import com.example.routex_app.models.RegisterClientRequest
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.utils.Resource
@@ -58,9 +62,8 @@ class ClientRepository(private val apiService: ApiService) {
         }
     }
 
-
-    // Dins de la classe ClientRepository
-    suspend fun getDashboard(token: String, userId: Int): Resource<CommercialDashboardResponse> {
+    //crear oferte
+    suspend fun createOferte(request: OferteRequest): Resource<String> {
         return try {
             // Crida al mètode correcte de l'ApiService
             val response = apiService.getCommercialDashboard(token, userId)
@@ -70,4 +73,34 @@ class ClientRepository(private val apiService: ApiService) {
         }
     }
 
+    suspend fun getPorts(): Resource<List<PortModel>> {
+        return try {
+            val response = apiService.getPorts()
+            if (response.status == HttpStatusCode.OK) {
+                Resource.Success(response.body())
+            } else {
+                Resource.Error("Error al cargar puertos")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Fallo de conexión")
+        }
+    }
+
+    suspend fun getClientDashboard(token: String, userId: Int): Resource<ClientDashboardDto> {
+        return try {
+            val response = apiService.getClientDashboard(token, userId)
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar dashboard")
+        }
+    }
+
+    suspend fun getEnvios(token: String, userId: Int): Resource<List<Presupuesto>> {
+        return try {
+            val data = apiService.getAcceptedQuotes(token, userId)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar envíos")
+        }
+    }
 }

@@ -68,6 +68,18 @@
             android:name=".commercial.PerfilActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".SolicitarPresupuestoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".EnviosTotalActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".DetallesEnvioActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

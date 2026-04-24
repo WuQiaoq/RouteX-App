@@ -17,7 +17,6 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
     val state: StateFlow<MainState> = _state.asStateFlow()
 
     fun loadDashboard(token: String, userId: Int, userName: String) {
-
         _state.update {
             it.copy(
                 isLoading = true,
@@ -27,8 +26,7 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
         }
 
         viewModelScope.launch {
-
-            when (val result = repository.getDashboard(token, userId)) {
+            when (val result = repository.getClientDashboard(token, userId)) {
 
                 is Resource.Success -> {
                     val data = result.data

@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
 
         val destinoActivity = when (rolId) {
             1, 2, 4 -> CommercialHomeActivity::class.java
-            else -> null
+            else -> MainActivity::class.java
         }
 
         if (destinoActivity != null) {
