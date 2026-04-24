@@ -71,16 +71,18 @@ class PresupuestoAdapter(
                 holder.layoutAcciones.visibility = View.VISIBLE
                 holder.tvMotivo.text = presupuesto.RaoRebuig ?: "Sin motivo especificado"
 
-                // Opcional: Si quieres quitar el feedback visual del clic (el ripple) en rechazados
-                // holder.itemView.isClickable = true // El listener sigue vivo para mostrar el Toast del Fragment
             }
         }
 
         // Configuración de Iconos
         if (presupuesto.TipusTransportId == 1) {
             holder.ivIcono.setImageResource(R.drawable.placeholder_ship)
+        } else if (presupuesto.TipusTransportId == 2) {
+        holder.ivIcono.setImageResource(R.drawable.placeholder_plane)
+        } else if (presupuesto.TipusTransportId == 3) {
+        holder.ivIcono.setImageResource(R.drawable.placeholder_truck)
         } else {
-            holder.ivIcono.setImageResource(android.R.drawable.ic_menu_send)
+            holder.ivIcono.setImageResource(android.R.drawable.ic_menu_share)
         }
     }
     override fun getItemCount(): Int = lista.size

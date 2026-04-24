@@ -92,6 +92,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("org.mindrot:jbcrypt:0.4")
     implementation("io.ktor:ktor-client-core:2.3.7")
+    implementation("org.slf4j:slf4j-android:1.7.36")
 
     // --- LIBGDX ---
     val gdxVersion = "1.13.0"

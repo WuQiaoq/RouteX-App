@@ -64,7 +64,7 @@ class CommercialGestionEnviosActivity : AppCompatActivity() {
             tvClientDetail.text = "Ruta: $ruta"
 
             // La fase o concepto actual
-            tvFaseActual.text = "📄 Fase actual: $concepto"
+           // tvFaseActual.text = "📄 Fase actual: $concepto"
 
             // Si tienes un campo para el precio total
             // tvTotalAmount.text = "$precio €"

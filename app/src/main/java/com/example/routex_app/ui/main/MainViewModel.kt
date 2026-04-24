@@ -37,9 +37,9 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                activeCount = data.activeCount,
+                                activeCount = data.activeOpsCount,
                                 pendingCount = data.pendingCount,
-                                recentActivities = data.recentActivities,
+                                //recentActivities = data.null,
                                 error = null
                             )
                         }

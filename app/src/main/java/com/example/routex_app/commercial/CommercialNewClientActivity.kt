@@ -22,7 +22,6 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.InputStream
 
 class CommercialNewClientActivity : AppCompatActivity() {
 
@@ -66,7 +65,7 @@ class CommercialNewClientActivity : AppCompatActivity() {
             if (request != null) executeRegistration(request)
         }
     }
-
+/* old
     private fun processAndUploadImage(uri: Uri) {
         val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
 
@@ -81,7 +80,7 @@ class CommercialNewClientActivity : AppCompatActivity() {
                 val bytes = inputStream?.readBytes() ?: return@launch
                 val fileName = "dni.jpg"
 
-                val resultat = NetworkClient.enviarDni(usertlfn, bytes, fileName)
+                val resultat = NetworkClient2.enviarDni(usertlfn, bytes, fileName)
 
                 withContext(Dispatchers.Main) {
                     serverFileResponse = fileName
@@ -97,7 +96,7 @@ class CommercialNewClientActivity : AppCompatActivity() {
             }
         }
     }
-
+*/
     // FUNCIÓ DE DESCÀRREGA UNIFICADA I CORREGIDA
     private fun descarregarIMostrarDni() {
         val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
@@ -194,7 +193,7 @@ class CommercialNewClientActivity : AppCompatActivity() {
         val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
         lifecycleScope.launch(Dispatchers.IO) {
             // 1. Baixem els bytes (ja venen desencriptats pel servidor)
-            val imageBytes = NetworkClient.baixarDni(usertlfn ,filename)
+            val imageBytes = NetworkClient.baixarDni(usertlfn, filename)
 
             withContext(Dispatchers.Main) {
                 if (imageBytes != null) {
@@ -209,5 +208,32 @@ class CommercialNewClientActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun processAndUploadImage(uri: Uri) {
+        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
+
+        if (usertlfn.isEmpty()) {
+            Toast.makeText(this, "Posa el telèfon primer!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            // Obtenim els bytes de la imatge seleccionada
+            val inputStream = contentResolver.openInputStream(uri)
+            val originalBytes = inputStream?.readBytes() ?: return@launch
+
+            // Cridem al client de xarxa (aquí s'encripta i s'envia byte a byte)
+            val resultat = NetworkClient.enviarDni(usertlfn, originalBytes, "dni.jpg")
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(this@CommercialNewClientActivity, resultat, Toast.LENGTH_LONG).show()
+                if (resultat.contains("✅")) {
+                    serverFileResponse = "dni.jpg"
+                    txtIdStatus.text = "DNI guardat i encriptat al servidor"
+                }
+            }
+        }
+    }
+
 
 }

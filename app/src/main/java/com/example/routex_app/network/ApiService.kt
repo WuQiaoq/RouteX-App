@@ -1,10 +1,15 @@
 package com.example.routex_app.network
 
+import android.util.Log
 import com.example.routex_app.models.*
+import com.example.routex_app.ui.commercial.envios.DetalleEnvio
+import com.example.routex_app.ui.commercial.envios.EnvioActivo
 import com.example.routex_app.utils.ApiEndpointsList
 import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.submitFormWithBinaryData
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.*
 
@@ -54,11 +59,6 @@ class ApiService(private val client: HttpClient) {
         }
     }
 
-    suspend fun getOfertas(token: String): List<Oferta> =
-        client.get(ApiEndpointsList.BASE_URL_PHP + ApiEndpointsList.LISTADO_OFERRTAS) {
-            header(HttpHeaders.Authorization, "Bearer $token")
-        }.body()
-
     // Esta es la que usa tu ClientesActivosActivity
     suspend fun getActiveClients(token: String, userId: Int): List<ClienteActivo> =
         client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.LSITADO_CLIENTES + userId) {
@@ -66,9 +66,61 @@ class ApiService(private val client: HttpClient) {
         }.body()
 
     suspend fun getUserProfile(token: String, userId: Int): UserProfileModel {
-        return client.get( ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.PERFIL_COMMERCIAL + userId) {
+        return client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.PERFIL_COMMERCIAL + userId) {
             header(HttpHeaders.Authorization, "Bearer $token")
             contentType(ContentType.Application.Json)
         }.body()
+    }
+
+    // Cambia DetalleEnvio por DetalleEnvioDto si ese es el nombre de tu data class
+    suspend fun getEnviosActivos(token: String, userId: Int): List<EnvioActivo> {
+        return client.get(ApiEndpointsList.BASE_URL_CS + "commercial/envios/activos/$userId") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+    }
+
+    suspend fun getDetalleEnvio(token: String, envioId: Int): DetalleEnvio {
+        return client.get(ApiEndpointsList.BASE_URL_CS + "commercial/envios/detalle/$envioId") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+    }
+
+    suspend fun confirmarSubidaEnDB(token: String, stepId: Int, fileName: String): Boolean {
+        return try {
+            val response: HttpResponse = client.post(ApiEndpointsList.BASE_URL_CS + "commercial/confirmar-subida") {
+                header(HttpHeaders.Authorization, "Bearer $token")
+                contentType(ContentType.Application.Json)
+                setBody(ConfirmarSubidaRequest(stepId, fileName))
+            }
+            response.status == HttpStatusCode.OK
+        } catch (e: Exception) {
+            Log.e("API_SERVICE", "Error confirmando subida: ${e.message}")
+            false
+        }
+    }
+
+    suspend fun subirDocumento(stepId: Int, fileBytes: ByteArray, fileName: String): Boolean {
+        return try {
+            val response = client.submitFormWithBinaryData(
+                url = "api/commercial/envios/subir", // Ajusta a tu URL de C#
+                formData = formData {
+                    append("stepId", stepId.toString())
+                    append("fichero", fileBytes, Headers.build {
+                        append(HttpHeaders.ContentDisposition, "filename=\"$fileName\"")
+                    })
+                }
+            )
+            response.status == HttpStatusCode.OK
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    suspend fun descargarArchivo(filename: String): ByteArray? {
+        return try {
+            client.get("api/commercial/envios/descargar/$filename").body<ByteArray>()
+        } catch (e: Exception) {
+            null
+        }
     }
 }
