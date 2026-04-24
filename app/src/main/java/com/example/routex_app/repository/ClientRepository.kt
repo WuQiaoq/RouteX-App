@@ -1,5 +1,6 @@
 package com.example.routex_app.repository
 
+import com.example.routex_app.models.ClientDashboardDto
 import com.example.routex_app.models.OferteRequest
 import com.example.routex_app.models.CurrencyModel
 import com.example.routex_app.models.DashboardResponse
@@ -57,7 +58,7 @@ class ClientRepository(private val apiService: ApiService) {
         }
     }
 
-    //
+    //crear oferte
     suspend fun createOferte(request: OferteRequest): Resource<String> {
         return try {
             val response = apiService.createOferte(request)
@@ -81,6 +82,15 @@ class ClientRepository(private val apiService: ApiService) {
             }
         } catch (e: Exception) {
             Resource.Error(e.localizedMessage ?: "Fallo de conexión")
+        }
+    }
+
+    suspend fun getClientDashboard(token: String, userId: Int): Resource<ClientDashboardDto> {
+        return try {
+            val response = apiService.getClientDashboard(token, userId)
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar dashboard")
         }
     }
 }

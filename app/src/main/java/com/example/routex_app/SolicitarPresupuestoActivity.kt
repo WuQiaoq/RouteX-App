@@ -69,11 +69,11 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
             val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
 
             val incotermMap = mapOf(
-                R.id.chip_exw to 1018,
-                R.id.chip_fob to 1019,
-                R.id.chip_cif to 1020,
-                R.id.chip_ddp to 1021,
-                R.id.chip_dap to 1022
+                R.id.chip_exw to 1017,
+                R.id.chip_fob to 1018,
+                R.id.chip_cif to 1019,
+                R.id.chip_ddp to 1020,
+                R.id.chip_dap to 1021
             )
 
             val selectedIncotermChipId = binding.cgIncoterm.checkedChipId
@@ -97,12 +97,15 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val incotermId = incotermIdNullable!!
+            // the Chip -> to find the incotermId in the map
+            val incotermId = incotermMap[binding.cgIncoterm.checkedChipId]
+                // if the user did not select the chip::
+                ?: run {
+                    Toast.makeText(this, "Selecciona un incoterm", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
 
             val request = OferteRequest(
-                tipusTransportId = 1,
-                tipusFluxeId = 1,
-                tipusCarregaId = 1,
                 incotermId = incotermId,
                 clientId = 1008,
                 tipusValidacioId = 1,
@@ -164,6 +167,7 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
 
                     binding.actvOrigen.setAdapter(adapterPorts)
                     binding.actvDestino.setAdapter(adapterPorts)
+
                 }
 
                 is Resource.Error -> {

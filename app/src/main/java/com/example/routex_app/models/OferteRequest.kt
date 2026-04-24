@@ -5,16 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OferteRequest(
-
-    @SerialName("TipusTransportId")
-    val tipusTransportId: Int = 1,
-
-    @SerialName("TipusFluxeId")
-    val tipusFluxeId: Int = 1,
-
-    @SerialName("TipusCarregaId")
-    val tipusCarregaId: Int = 1,
-
     @SerialName("IncotermId")
     val incotermId: Int,
 

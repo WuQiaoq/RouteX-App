@@ -17,7 +17,6 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
     val state: StateFlow<MainState> = _state.asStateFlow()
 
     fun loadDashboard(token: String, userId: Int, userName: String) {
-
         _state.update {
             it.copy(
                 isLoading = true,
@@ -25,10 +24,9 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                 error = null
             )
         }
-/*
-        viewModelScope.launch {
 
-            when (val result = repository.getDashboard(token, userId)) {
+        viewModelScope.launch {
+            when (val result = repository.getClientDashboard(token, userId)) {
 
                 is Resource.Success -> {
                     val data = result.data
@@ -37,9 +35,9 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                         _state.update {
                             it.copy(
                                 isLoading = false,
+                                userName = data.userName,
                                 activeCount = data.activeCount,
                                 pendingCount = data.pendingCount,
-                                recentActivities = data.recentActivities,
                                 error = null
                             )
                         }
@@ -68,6 +66,6 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                     }
                 }
             }
-        }*/
+        }
     }
 }

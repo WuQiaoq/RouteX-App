@@ -1,5 +1,6 @@
 package com.example.routex_app.network
 
+import com.example.routex_app.models.ClientDashboardDto
 import com.example.routex_app.models.OferteRequest
 import com.example.routex_app.models.CommercialDashboardResponse
 import com.example.routex_app.models.CurrencyModel
@@ -82,6 +83,16 @@ class ApiService(private val client: HttpClient) {
             setBody(request)
         }
 
+    suspend fun getClientDashboard(
+        token: String,
+        userId: Int
+    ): ClientDashboardDto {
+        return client.get("client/dashboard/$userId") {
+            header("Authorization", "Bearer $token")
+        }.body()
+    }
+
+    // puertos de solicitud presupuesto
     suspend fun getPorts() =
         client.get("http://10.0.2.2:5105/api/Ports")
 }
