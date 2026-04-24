@@ -14,7 +14,6 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <!-- Card style base -->
     <style name="Widget.App.Card" parent="Widget.MaterialComponents.CardView">
         <item name="cardElevation">@dimen/card_elevation</item>
         <item name="cardCornerRadius">@dimen/card_radius</item>
@@ -22,7 +21,6 @@
         <item name="strokeWidth">1dp</item>
     </style>
 
-    <!-- Button primary -->
     <style name="Widget.App.Button.Primary" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/color_primary</item>
         <item name="android:textColor">@color/white</item>
@@ -31,7 +29,6 @@
         <item name="cornerRadius">@dimen/btn_radius</item>
     </style>
 
-    <!-- Button outline -->
     <style name="Widget.App.Button.Outline" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/color_primary</item>
         <item name="android:textColor">@color/color_primary</item>
@@ -40,22 +37,6 @@
         <item name="cornerRadius">@dimen/btn_radius</item>
     </style>
 
-    <!-- TabLayout -->
-    <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.TabLayout">
-        <item name="tabSelectedTextColor">@color/tab_selected</item>
-        <item name="tabTextColor">@color/tab_unselected</item>
-        <item name="tabIndicatorColor">@color/tab_indicator</item>
-        <item name="tabIndicatorHeight">@dimen/tab_indicator_height</item>
-        <item name="tabBackground">@color/white</item>
-        <item name="tabTextAppearance">@style/TextAppearance.App.Tab</item>
-    </style>
-
-    <style name="TextAppearance.App.Tab" parent="TextAppearance.Design.Tab">
-        <item name="android:textSize">@dimen/text_sm</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <!--shape circle style-->
     <style name="CircleImageViewStyle">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

@@ -56,4 +56,67 @@
         <item name="strokeColor">#E2E8F0</item>
         <item name="strokeWidth">1dp</item>
     </style>
-</resources>
+
+        <style name="ProfileSectionTitle">
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:layout_marginTop">24dp</item>
+            <item name="android:layout_marginBottom">8dp</item>
+            <item name="android:textColor">#64748B</item>
+            <item name="android:textSize">12sp</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textAllCaps">true</item>
+            <item name="android:letterSpacing">0.05</item>
+        </style>
+
+        <style name="ProfileCard" parent="Widget.MaterialComponents.CardView">
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="cardCornerRadius">12dp</item>
+            <item name="cardElevation">0dp</item>
+            <item name="android:layout_marginBottom">4dp</item>
+        </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#F1F5F9</item>
+        <item name="android:layout_marginStart">56dp</item>
+    </style>
+
+    <style name="ProfileDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#F1F5F9</item>
+        <item name="android:layout_marginStart">56dp</item> </style>
+        <style name="CircleImage">
+            <item name="cornerSize">50%</item>
+        </style>
+
+        <style name="ProfileOptionTitle">
+            <item name="android:textColor">#1E293B</item>
+            <item name="android:textSize">16sp</item>
+            <item name="android:textStyle">normal</item>
+        </style>
+
+        <style name="ProfileOptionSubtitle">
+            <item name="android:textColor">#64748B</item>
+            <item name="android:textSize">13sp</item>
+        </style>
+
+        <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.TabLayout">
+            <item name="android:background">@color/white</item>
+            <item name="tabIndicatorColor">#F97316</item>
+            <item name="tabIndicatorHeight">3dp</item>
+            <item name="tabSelectedTextColor">#F97316</item>
+            <item name="tabTextColor">#64748B</item>
+            <item name="tabTextAppearance">@style/TabTextAppearance</item>
+            <item name="tabRippleColor">#1A000000</item>
+        </style>
+
+        <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+            <item name="android:textSize">14sp</item>
+            <item name="android:textStyle">bold</item>
+            <item name="android:textAllCaps">false</item>
+        </style>
+    </resources>

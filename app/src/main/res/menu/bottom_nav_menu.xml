@@ -17,13 +17,13 @@
         android:title="@string/nav_clients" />
 
     <item
-        android:id="@+id/nav_routes"
+        android:id="@+id/nav_ofertas"
         android:icon="@drawable/ic_routes"
         android:title="@string/nav_routes" />
 
     <item
-        android:id="@+id/nav_chat"
-        android:icon="@drawable/ic_chat"
-        android:title="@string/nav_chat" />
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_nav_profile"
+        android:title="Perfil" />
 
 </menu>

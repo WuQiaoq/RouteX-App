@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.routex_app.R
-import com.example.routex_app.commercial.CommercialGestionEnviosActivity
+import com.example.routex_app.commercial.DetallesEnvioActivity
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.CommercialRepository
@@ -52,7 +52,7 @@ class PresupuestoListFragment : Fragment(R.layout.fragment_presupuesto_list) {
         // --- AQUÍ CONECTAMOS EL CLIC ---
         adaptador = PresupuestoAdapter(emptyList(), tipo) { presupuesto ->
             // Definimos la navegación a la actividad de gestión (la del XML de detalles)
-            val intent = Intent(requireContext(), CommercialGestionEnviosActivity::class.java).apply {
+            val intent = Intent(requireContext(), DetallesEnvioActivity::class.java).apply {
                 putExtra("PEDIDO_ID", presupuesto.id.toString())
                 putExtra("RUTA", presupuesto.Ruta)
                 putExtra("CONCEPTO", presupuesto.Concepto)

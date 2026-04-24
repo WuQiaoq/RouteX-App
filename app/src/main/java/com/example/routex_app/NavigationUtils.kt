@@ -4,8 +4,12 @@ package com.example.routex_app
 import android.content.Intent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.routex_app.commercial.ClientesActivosActivity
 import com.example.routex_app.commercial.CommercialHomeActivity
+import com.example.routex_app.commercial.EnviosActivity
+import com.example.routex_app.commercial.PerfilActivity
 import com.example.routex_app.commercial.PresupuestosActivity
+import com.example.routex_app.databinding.ActivityEnviosBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 object NavigationUtils {
@@ -23,10 +27,9 @@ object NavigationUtils {
             val intent = when (item.itemId) {
                 R.id.nav_home -> Intent(activity, CommercialHomeActivity::class.java)
                 R.id.nav_budgets -> Intent(activity, PresupuestosActivity::class.java)
-                R.id.nav_clients -> {
-                    // Aquí podrías añadir ClientsActivity cuando esté lista
-                    null
-                }
+                R.id.nav_clients -> Intent(activity, ClientesActivosActivity::class.java)
+                R.id.nav_ofertas -> Intent(activity, EnviosActivity::class.java)
+                R.id.nav_profile -> Intent(activity, PerfilActivity::class.java)
                 else -> null
             }
 

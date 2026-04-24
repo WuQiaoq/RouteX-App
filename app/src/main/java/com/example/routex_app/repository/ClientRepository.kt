@@ -17,28 +17,22 @@ class ClientRepository(private val apiService: ApiService) {
     // 1. Obtener lista de Industrias
     suspend fun getIndustries(): Resource<List<IndustryModel>> {
         return try {
-            val response = apiService.getIndustries()
-            if (response.status == HttpStatusCode.OK) {
-                Resource.Success(response.body())
-            } else {
-                Resource.Error("Error al cargar industrias")
-            }
+            // Ahora apiService.getIndustries() devuelve List<IndustryModel> directamente
+            val industries = apiService.getIndustries()
+            Resource.Success(industries)
         } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "Fallo de conexión")
+            // Ktor lanza excepciones si el status no es 2xx al usar .body()
+            Resource.Error(e.localizedMessage ?: "Error al cargar industrias")
         }
     }
 
     // 2. Obtener lista de Monedas
     suspend fun getCurrencies(): Resource<List<CurrencyModel>> {
         return try {
-            val response = apiService.getCurrencies()
-            if (response.status == HttpStatusCode.OK) {
-                Resource.Success(response.body())
-            } else {
-                Resource.Error("Error al cargar monedas")
-            }
+            val currencies = apiService.getCurrencies()
+            Resource.Success(currencies)
         } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "Fallo de conexión")
+            Resource.Error(e.localizedMessage ?: "Error al cargar monedas")
         }
     }
 
@@ -46,12 +40,19 @@ class ClientRepository(private val apiService: ApiService) {
     suspend fun registerClient(request: RegisterClientRequest): Resource<String> {
         return try {
             val response = apiService.registerClient(request)
+
+            // Aquí SI usamos .status porque registerClient devuelve HttpResponse
             if (response.status == HttpStatusCode.OK || response.status == HttpStatusCode.Created) {
                 Resource.Success("Cliente registrado correctamente")
             } else {
-                // Intentamos leer el mensaje de error del JSON de C# {"error": "..."}
-                val errorBody: Map<String, String> = response.body()
-                Resource.Error(errorBody["error"] ?: "Error en el registro")
+                // Intentamos capturar el error del body si el status no es exitoso
+                val errorMsg = try {
+                    val errorBody: Map<String, String> = response.body()
+                    errorBody["error"] ?: "Error en el registro"
+                } catch (e: Exception) {
+                    "Error del servidor (${response.status.value})"
+                }
+                Resource.Error(errorMsg)
             }
         } catch (e: Exception) {
             Resource.Error("Error de red: ${e.localizedMessage}")

@@ -45,29 +45,38 @@ class PresupuestoAdapter(
             onItemClick(presupuesto)
         }
 
-        // --- Tu lógica de colores y estados se mantiene igual ---
+        // --- Lógica visual según el tipo ---
         when (tipo) {
             "SENT" -> {
+                holder.itemView.alpha = 1.0f // Totalmente opaco
                 holder.tvEstado.text = "ENVIADO"
                 holder.tvEstado.setBackgroundColor(0xFF64748B.toInt())
                 holder.layoutMotivo.visibility = View.GONE
                 holder.layoutAcciones.visibility = View.GONE
             }
             "ACCEPTED" -> {
+                holder.itemView.alpha = 1.0f // Totalmente opaco
                 holder.tvEstado.text = "ACEPTADO"
                 holder.tvEstado.setBackgroundColor(0xFF10B981.toInt())
                 holder.layoutMotivo.visibility = View.GONE
                 holder.layoutAcciones.visibility = View.GONE
             }
             "REJECTED" -> {
+                // MODIFICACIÓN: Efecto visual de "deshabilitado"
+                holder.itemView.alpha = 0.6f
+
                 holder.tvEstado.text = "RECHAZADO"
                 holder.tvEstado.setBackgroundColor(0xFFEF4444.toInt())
                 holder.layoutMotivo.visibility = View.VISIBLE
                 holder.layoutAcciones.visibility = View.VISIBLE
-                holder.tvMotivo.text = presupuesto.RaoRebuig ?: "Sin motivo"
+                holder.tvMotivo.text = presupuesto.RaoRebuig ?: "Sin motivo especificado"
+
+                // Opcional: Si quieres quitar el feedback visual del clic (el ripple) en rechazados
+                // holder.itemView.isClickable = true // El listener sigue vivo para mostrar el Toast del Fragment
             }
         }
 
+        // Configuración de Iconos
         if (presupuesto.TipusTransportId == 1) {
             holder.ivIcono.setImageResource(R.drawable.placeholder_ship)
         } else {
