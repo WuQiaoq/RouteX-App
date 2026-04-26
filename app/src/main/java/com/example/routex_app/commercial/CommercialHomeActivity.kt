@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.routex_app.JuegoActivity
-import com.example.routex_app.NavigationUtils
+import com.example.routex_app.NavigationUtilsCommercial
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityCommercialHomeBinding
 import com.example.routex_app.network.ApiService
@@ -34,7 +34,7 @@ class CommercialHomeActivity : AppCompatActivity() {
         binding = ActivityCommercialHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        NavigationUtils.setupBottomNavigation(this, binding.bottomNav, R.id.nav_home)
+        NavigationUtilsCommercial.setupBottomNavigation(this, binding.bottomNav, R.id.nav_home)
 
         val token = intent.getStringExtra("USER_TOKEN") ?: ""
         val userId = intent.getIntExtra("USER_ID", -1)

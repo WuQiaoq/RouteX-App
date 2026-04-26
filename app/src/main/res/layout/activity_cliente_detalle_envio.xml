@@ -52,48 +52,42 @@
                 android:layout_marginBottom="16dp"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp">
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                     <ImageView
                         android:id="@+id/iv_hero_bg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         android:src="@drawable/bg_containers" />
-
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="#80000000" />
-
                     <TextView
-                        android:id="@+id/tvOrderNumber"
+                        android:id="@+id/tv_hero_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        tools:text="Pedido #12345"
+                        tools:text="Carga General - Contenedores"
                         android:textColor="@android:color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@+id/tvClientDetail"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_hero_subtitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
-
                     <TextView
-                        android:id="@+id/tvClientDetail"
+                        android:id="@+id/tv_hero_subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginBottom="16dp"
-                        tools:text="Cliente: Nombre del Cliente"
+                        tools:text="Origen → Destino"
                         android:textColor="#E2E8F0"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -173,13 +167,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_tracking_step" />
+                tools:listitem="@layout/item_tracking_step2" />
 
         </LinearLayout>
     </ScrollView>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/loading_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -193,6 +187,6 @@
         android:layout_width="match_parent"
         android:layout_height="72dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu_cliente" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

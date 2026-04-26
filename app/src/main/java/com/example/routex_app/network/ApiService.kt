@@ -124,13 +124,14 @@ class ApiService(private val client: HttpClient) {
         }
     }
 
-    //Enviar el solicitud de presupuesto
-    suspend fun createOferte(request: OferteRequest) =
-        client.post(ApiEndpointsList.BASE_URL_CS+ ApiEndpointsList.CLIENTE_OFERTAS) {
+    // Dins de class ApiService
+    suspend fun createOferte(token: String, request: OferteRequest): HttpResponse {
+        return client.post(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENTE_OFERTAS) {
+            header(HttpHeaders.Authorization, "Bearer $token") // Important: Afegeix el token
             contentType(ContentType.Application.Json)
             setBody(request)
         }
-
+    }
     suspend fun getClientDashboard(
         token: String,
         userId: Int
@@ -143,5 +144,24 @@ class ApiService(private val client: HttpClient) {
     // puertos de solicitud presupuesto
     suspend fun getPorts() =
         client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.PORT)
+
+    // --- NUEVAS FUNCIONES PARA CLIENTE ---
+
+    // Obtener lista de envíos activos del cliente (Aceptados/Tránsito)
+    suspend fun getClientEnviosActivos(token: String, userId: Int): List<EnvioActivo> {
+        return client.get(ApiEndpointsList.BASE_URL_CS + "client/envios/activos/$userId") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            contentType(ContentType.Application.Json)
+        }.body()
+    }
+
+    // Obtener el detalle con tracking de un envío para el cliente
+    // Pasamos envioId y userId para la validación de seguridad en C#
+    suspend fun getClientDetalleEnvio(token: String, envioId: Int, userId: Int): DetalleEnvio {
+        return client.get(ApiEndpointsList.BASE_URL_CS + "client/envios/detalle/$envioId/$userId") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            contentType(ContentType.Application.Json)
+        }.body()
+    }
 
 }

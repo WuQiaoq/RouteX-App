@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".cliente.MainActivity"
             android:exported="false" />
 
         <activity
@@ -70,16 +70,31 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".SolicitarPresupuestoActivity"
+            android:name=".cliente.SolicitarPresupuestoActivity"
             android:exported="false" />
 
         <activity
-            android:name=".EnviosTotalActivity"
+            android:name=".cliente.EnviosTotalActivity"
             android:exported="false" />
 
         <activity
-            android:name=".DetallesEnvioActivity"
+            android:name=".cliente.DetallesEnvioActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".cliente.DetallesClientEnvioActivity"
+            android:exported="false" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

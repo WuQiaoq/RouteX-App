@@ -1,6 +1,8 @@
-package com.example.routex_app
+package com.example.routex_app.cliente
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -13,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.routex_app.NavigationUtilsClient
+import com.example.routex_app.R
 import com.example.routex_app.adapters.RecentActivityAdapter
 import com.example.routex_app.data.MainState
 import com.example.routex_app.databinding.ActivityMainBinding
@@ -21,7 +25,6 @@ import com.example.routex_app.network.KtorClient
 import com.example.routex_app.repository.ClientRepository
 import com.example.routex_app.ui.main.MainViewModel
 import kotlinx.coroutines.launch
-import android.content.Intent
 
 class MainActivity : AppCompatActivity() {
 
@@ -99,61 +102,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.btnNotifications.setOnClickListener {
-            binding.viewNotificationDot.visibility = android.view.View.GONE
+            binding.viewNotificationDot.visibility = View.GONE
             Toast.makeText(this, "Sin notificaciones nuevas", Toast.LENGTH_SHORT).show()
         }
 
         // solicitar presupuesto
-        binding.btnRequestQuote.setOnClickListener {
-            val token = this.intent.getStringExtra("USER_TOKEN") ?: ""
-            val userId = this.intent.getIntExtra("USER_ID", -1)
-            val userName = this.intent.getStringExtra("USER_NAME") ?: "Cliente"
+        binding.bottomNavigation.menu.clear()
+        binding.bottomNavigation.inflateMenu(R.menu.bottom_nav_menu_cliente)
 
-            val nextIntent = Intent(this, SolicitarPresupuestoActivity::class.java).apply {
-                putExtra("USER_TOKEN", token)
-                putExtra("USER_ID", userId)
-                putExtra("USER_NAME", userName)
-            }
-
-            startActivity(nextIntent)
-        }
-
+        // 2. Marcar el item actual
         binding.bottomNavigation.selectedItemId = R.id.nav_home
 
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-
-                R.id.nav_home -> {
-                    true
-                }
-
-                R.id.nav_budgets -> {
-                    Toast.makeText(this, "Cotizar", Toast.LENGTH_SHORT).show()
-                    // startActivity(Intent(this, PresupuestosTotalActivity::class.java))
-                    true
-                }
-
-                R.id.nav_shipping -> {
-                    Toast.makeText(this, "Envíos", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, EnviosTotalActivity::class.java))
-                    true
-                }
-
-                R.id.nav_chat -> {
-                    Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show()
-                    // startActivity(Intent(this, ChatActivity::class.java))
-                    true
-                }
-
-                R.id.nav_profile -> {
-                    Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
-                    // startActivity(Intent(this, PerfilActivity::class.java))
-                    true
-                }
-
-                else -> false
-            }
-        }
+        // 3. Configurar la navegación pasándole los datos necesarios para que no se pierdan al navegar
+        NavigationUtilsClient().setupBottomNavigation(
+            activity = this,
+            bottomNav = binding.bottomNavigation,
+            currentItemId = R.id.nav_home
+        )
 
     }
 

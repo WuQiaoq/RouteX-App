@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.routex_app.NavigationUtils
+import com.example.routex_app.NavigationUtilsCommercial
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityPerfilCommercialBinding
 import com.example.routex_app.models.UserProfileModel
@@ -40,7 +40,7 @@ class PerfilActivity : AppCompatActivity() {
         setupUI()
         observeViewModel()
 
-        NavigationUtils.setupBottomNavigation(this, binding.bottomNav, R.id.nav_profile)
+        NavigationUtilsCommercial.setupBottomNavigation(this, binding.bottomNav, R.id.nav_profile)
 
         if (userId != -1 && token.isNotEmpty()) {
             viewModel.fetchUserProfile(userId, token)

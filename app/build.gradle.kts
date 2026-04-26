@@ -93,6 +93,7 @@ dependencies {
     implementation("org.mindrot:jbcrypt:0.4")
     implementation("io.ktor:ktor-client-core:2.3.7")
     implementation("org.slf4j:slf4j-android:1.7.36")
+    implementation("androidx.activity:activity-ktx:1.8.2")
 
     // --- LIBGDX ---
     val gdxVersion = "1.13.0"
