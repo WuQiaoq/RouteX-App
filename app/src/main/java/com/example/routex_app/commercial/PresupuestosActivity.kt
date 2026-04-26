@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.routex_app.NavigationUtils
+import com.example.routex_app.NavigationUtilsCommercial
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityPresupuestosBinding
 import com.example.routex_app.network.ApiService
@@ -35,7 +35,7 @@ class PresupuestosActivity : AppCompatActivity() {
 
         // 1. Configurar Barra de Navegación Inferior (Misma lógica que Home)
         val bottomNav = binding.bottomNav
-        NavigationUtils.setupBottomNavigation(this, bottomNav, R.id.nav_budgets)
+        NavigationUtilsCommercial.setupBottomNavigation(this, bottomNav, R.id.nav_budgets)
 
         // 2. Recuperar TOKEN e ID
         val token = intent.getStringExtra("TOKEN") ?: ""

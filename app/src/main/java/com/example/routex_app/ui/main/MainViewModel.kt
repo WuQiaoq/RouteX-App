@@ -35,9 +35,10 @@ class MainViewModel(private val repository: ClientRepository) : ViewModel() {
                         _state.update {
                             it.copy(
                                 isLoading = false,
-                                activeCount = data.activeOpsCount,
+                                // CANVI: data.activeCount en lloc de data.activeOpsCount
+                                activeCount = data.activeCount,
+                                // CANVI: data.pendingCount (aquest ja el tenies bé)
                                 pendingCount = data.pendingCount,
-                                //recentActivities = data.null,
                                 error = null
                             )
                         }

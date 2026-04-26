@@ -5,21 +5,18 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.routex_app.NavigationUtils
+import com.example.routex_app.NavigationUtilsCommercial
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityCommercialGestionEnviosBinding
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
 import com.example.routex_app.network.NetworkClient
-import com.example.routex_app.ui.commercial.envios.DetalleEnvio
 import com.example.routex_app.ui.commercial.envios.TrackingStep
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,7 +57,7 @@ class DetallesEnvioActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         binding.btnBack.setOnClickListener { finish() }
-        NavigationUtils.setupBottomNavigation(this, binding.bottomNav, R.id.nav_ofertas)
+        NavigationUtilsCommercial.setupBottomNavigation(this, binding.bottomNav, R.id.nav_ofertas)
     }
 
     private fun obtenerDatosReales() {
@@ -161,8 +158,11 @@ class DetallesEnvioActivity : AppCompatActivity() {
         }
     }
 
-    private fun descargarYVer(fileName: String) {
+    private fun descargarYVer(fullPath: String) {
+        val cleanFileName = fullPath.substringAfterLast("/")
         val folderId = pedidoId
+
+        Log.d("BAIXAR", "fullPath: $fullPath → cleanFileName: $cleanFileName → folderId: $folderId")
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -170,19 +170,17 @@ class DetallesEnvioActivity : AppCompatActivity() {
                     binding.progressBar.visibility = android.view.View.VISIBLE
                 }
 
-                // Llamada al socket
-                val bytesDescargados = NetworkClient.baixarDni(folderId, fileName)
+                val bytesDescargados = NetworkClient.baixarDni(folderId, fullPath.trimStart('/'))
 
                 withContext(Dispatchers.Main) {
                     binding.progressBar.visibility = android.view.View.GONE
                     if (bytesDescargados != null) {
-                        if (fileName.lowercase().endsWith(".pdf")) {
-                            abrirPdfExterno(bytesDescargados, fileName)
+                        if (cleanFileName.lowercase().endsWith(".pdf")) {
+                            abrirPdfExterno(bytesDescargados, cleanFileName)
                         } else {
                             mostrarImagenDialog(bytesDescargados)
                         }
                     } else {
-                        // CORREGIDO: Usando el nombre correcto de la clase
                         Toast.makeText(this@DetallesEnvioActivity, "No se pudo descargar", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -194,7 +192,6 @@ class DetallesEnvioActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun mostrarImagenDialog(bytes: ByteArray) {
         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
         if (bitmap == null) {

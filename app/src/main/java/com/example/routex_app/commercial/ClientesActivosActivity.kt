@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.routex_app.NavigationUtils
+import com.example.routex_app.NavigationUtilsCommercial
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityClientesActivosBinding
 import com.example.routex_app.ui.commercial.clientes.ClientesActivosAdapter
@@ -49,7 +49,7 @@ class ClientesActivosActivity : AppCompatActivity() {
         val token = intent.getStringExtra("USER_TOKEN") ?: "" // Antes tenías "AUTH_TOKEN"
         val userId = intent.getIntExtra("USER_ID", -1)
 
-        NavigationUtils.setupBottomNavigation(this, binding.bottomNav, R.id.nav_clients)
+        NavigationUtilsCommercial.setupBottomNavigation(this, binding.bottomNav, R.id.nav_clients)
 
         if (userId != 0 && token.isNotEmpty()) {
             viewModel.fetchActiveClients(userId, token)

@@ -9,10 +9,9 @@ import com.example.routex_app.commercial.CommercialHomeActivity
 import com.example.routex_app.commercial.EnviosActivity
 import com.example.routex_app.commercial.PerfilActivity
 import com.example.routex_app.commercial.PresupuestosActivity
-import com.example.routex_app.databinding.ActivityEnviosBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-object NavigationUtils {
+object NavigationUtilsCommercial {
 
     fun setupBottomNavigation(
         activity: AppCompatActivity,

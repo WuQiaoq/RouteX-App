@@ -3,7 +3,7 @@ package com.example.routex_app.commercial
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.routex_app.NavigationUtils
+import com.example.routex_app.NavigationUtilsCommercial
 import com.example.routex_app.R
 import com.example.routex_app.databinding.ActivityCommercialGestionEnviosBinding
 
@@ -21,7 +21,7 @@ class CommercialGestionEnviosActivity : AppCompatActivity() {
 
         // 2. Configurar la barra de navegación inferior
         // Reutilizamos tu utilidad de navegación (asegúrate de que R.id.nav_home o el que corresponda exista)
-        NavigationUtils.setupBottomNavigation(this, binding.bottomNav, R.id.nav_home)
+        NavigationUtilsCommercial.setupBottomNavigation(this, binding.bottomNav, R.id.nav_home)
 
         // 3. Configurar el botón de retroceso de la Toolbar
         binding.btnBack.setOnClickListener {

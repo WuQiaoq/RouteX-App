@@ -1,4 +1,4 @@
-package com.example.routex_app.commercial
+package com.example.routex_app.cliente
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,49 +10,51 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.routex_app.NavigationUtilsCommercial
+import com.example.routex_app.NavigationUtilsClient
 import com.example.routex_app.R
-import com.example.routex_app.databinding.ActivityCommercialEnviosBinding
+import com.example.routex_app.databinding.ActivityClienteEnviosBinding
+import com.example.routex_app.databinding.ActivityEnviosBinding
+import com.example.routex_app.ui.cliente.envios.ClientEnviosViewModel
+import com.example.routex_app.ui.cliente.envios.ClientEnviosViewModelFactory
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.network.KtorClient
-import com.example.routex_app.repository.CommercialRepository
+import com.example.routex_app.ui.cliente.envios.ClientRepository
 import com.example.routex_app.ui.commercial.envios.EnvioAdapter
-import com.example.routex_app.viewmodel.EnviosViewModel
 import kotlinx.coroutines.launch
 
-class EnviosActivity : AppCompatActivity() {
+class EnviosTotalActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCommercialEnviosBinding
+    private lateinit var binding: ActivityClienteEnviosBinding
     private var estatFiltreActual = "Todos"
     private var token: String = ""
     private var userId: Int = -1
-
-    // 1. Declaramos el adaptador
     private lateinit var envioAdapter: EnvioAdapter
 
-    private val viewModel: EnviosViewModel by viewModels {
-        val apiService = ApiService(KtorClient.httpClient)
-        val repository = CommercialRepository(apiService)
-        EnviosViewModelFactory(repository)
+    private val viewModel: ClientEnviosViewModel by viewModels {
+        ClientEnviosViewModelFactory(
+            ClientRepository(ApiService(KtorClient.httpClient))
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCommercialEnviosBinding.inflate(layoutInflater)
+        binding = ActivityClienteEnviosBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        NavigationUtilsCommercial.setupBottomNavigation(this, binding.bottomNav, R.id.nav_ofertas)
+        // Configuración de navegación (Ajusta el ID nav_shipping según tu menú de cliente)
+        NavigationUtilsClient().setupBottomNavigation(this, binding.bottomNav, R.id.nav_shipping)
 
         token = intent.getStringExtra("USER_TOKEN") ?: ""
         userId = intent.getIntExtra("USER_ID", -1)
 
-        // 2. Inicializar el RecyclerView antes de cargar datos
         setupRecyclerView()
 
         if (token.isNotEmpty() && userId != -1) {
-            viewModel.loadOfertas(token, userId)
+            viewModel.loadEnvios(token, userId)
         }
 
         configurarEscoltadors()
@@ -61,15 +63,16 @@ class EnviosActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         envioAdapter = EnvioAdapter(emptyList()) { envio ->
-            // Click en la card: vamos a detalles
-            val intent = Intent(this, DetallesEnvioActivity::class.java)
-            intent.putExtra("PEDIDO_ID", envio.id.toString())
-            intent.putExtra("USER_TOKEN", token)
+            val intent = Intent(this, DetallesClientEnvioActivity::class.java).apply { // <--- AQUÍ
+                putExtra("PEDIDO_ID", envio.id)
+                putExtra("USER_ID", userId)
+                putExtra("USER_TOKEN", token)
+            }
             startActivity(intent)
         }
 
         binding.rvEnvios.apply {
-            layoutManager = LinearLayoutManager(this@EnviosActivity)
+            layoutManager = LinearLayoutManager(this@EnviosTotalActivity)
             adapter = envioAdapter
         }
     }
@@ -78,16 +81,16 @@ class EnviosActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-                    // 3. Pasamos TODA la lista al adaptador
-                    state.data?.let { llista ->
-                        envioAdapter.updateData(llista)
+                    // Si tienes un ProgressBar en el XML con ID 'loading', descomenta esta línea:
+                    // binding.loading.visibility = if (state.isLoading) View.VISIBLE else View.GONE
 
-                        // Si no hay datos, podrías mostrar un texto de "No hay envíos"
-                        binding.rvEnvios.visibility = if (llista.isNotEmpty()) View.VISIBLE else View.GONE
+                    state.data?.let { lista ->
+                        envioAdapter.updateData(lista)
+                        binding.rvEnvios.visibility = if (lista.isNotEmpty()) View.VISIBLE else View.GONE
                     }
 
                     state.error?.let { msg ->
-                        Toast.makeText(this@EnviosActivity, "Error: $msg", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@EnviosTotalActivity, "Error: $msg", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -121,9 +124,5 @@ class EnviosActivity : AppCompatActivity() {
             btn.setBackgroundColor(ContextCompat.getColor(this, if (isSelected) R.color.color_primary else android.R.color.white))
             btn.setTextColor(ContextCompat.getColor(this, if (isSelected) android.R.color.white else R.color.color_secondary_light))
         }
-    }
-
-    class EnviosViewModelFactory(private val repository: CommercialRepository) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T = EnviosViewModel(repository) as T
     }
 }

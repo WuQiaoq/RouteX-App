@@ -1,6 +1,6 @@
 package com.example.routex_app.repository
 
-import OferteRequest
+
 import com.example.routex_app.models.CommercialDashboardResponse
 import com.example.routex_app.models.ClientDashboardDto
 import com.example.routex_app.models.OferteRequest
@@ -63,13 +63,20 @@ class ClientRepository(private val apiService: ApiService) {
     }
 
     //crear oferte
-    suspend fun createOferte(request: OferteRequest): Resource<String> {
+    suspend fun createOferte(token: String, request: OferteRequest): Resource<String> {
         return try {
-            // Crida al mètode correcte de l'ApiService
-            val response = apiService.getCommercialDashboard(token, userId)
-            Resource.Success(response)
+            // Cridem a la funció de l'ApiService que fa el POST
+            val response = apiService.createOferte(token, request)
+
+            // Ktor HttpResponse: comprovem el codi d'estat
+            if (response.status == HttpStatusCode.OK || response.status == HttpStatusCode.Created) {
+                Resource.Success("Oferta enviada correctament")
+            } else {
+                Resource.Error("Error del servidor: ${response.status.value}")
+            }
         } catch (e: Exception) {
-            Resource.Error(e.localizedMessage ?: "Error al carregar el dashboard comercial")
+            // Captura errors de xarxa o de serialització JSON
+            Resource.Error(e.localizedMessage ?: "Error de connexió al crear l'oferta")
         }
     }
 
