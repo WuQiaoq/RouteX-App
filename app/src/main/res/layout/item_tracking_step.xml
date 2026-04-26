@@ -1,134 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
-
-    <View
-        android:id="@+id/lineVertical"
-        android:layout_width="2dp"
-        android:layout_height="0dp"
-        android:background="#E2E8F0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/ivStepIcon"
-        app:layout_constraintStart_toStartOf="@id/ivStepIcon"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ivStepIcon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="12dp"
-        android:elevation="2dp"
-        android:src="@drawable/ic_circle_outline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#E2E8F0"
+    app:strokeWidth="1dp">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/ivStepIcon"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvStepTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estado del Envío"
-            android:textColor="#1E293B"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvStepTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="--/--/---- --:--"
-            android:textColor="#94A3B8"
-            android:textSize="12sp" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardDocumentoExistente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone"
-            app:cardBackgroundColor="#F1F5F9"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp">
-
-                <ImageView
-                    android:id="@+id/icDoc"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_check_circle"
-                    app:tint="#10B981" />
-
-                <TextView
-                    android:id="@+id/tvNombreDoc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/icDoc"
-                    android:text="archivo_comprobante.jpg"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/btnVerDoc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:padding="4dp"
-                    android:text="VER"
-                    android:textColor="#F97316"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </com.google.android.material.card.MaterialCardView>
-
+        <!-- Icono + línea vertical -->
         <LinearLayout
-            android:id="@+id/layoutSubirDocumento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSubir"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SUBIR COMPROBANTE"
-                android:textColor="#F97316"
-                android:textSize="12sp"
-                app:icon="@drawable/ic_upload"
-                app:iconSize="16dp"
-                app:iconTint="#F97316"
-                app:strokeColor="#F97316" />
+            <ImageView
+                android:id="@+id/ivStatusIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_check_circle"
+                app:tint="#F97316" />
 
-            <ProgressBar
-                android:id="@+id/pbSubiendo"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:visibility="gone" />
+            <View
+                android:id="@+id/viewLine"
+                android:layout_width="2dp"
+                android:layout_height="30dp"
+                android:background="#F97316" />
         </LinearLayout>
 
+        <!-- Contenido -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvStepTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre del Documento"
+                android:textColor="#1E293B"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvStepTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pendiente de confirmación"
+                android:textColor="#94A3B8"
+                android:textSize="12sp" />
+
+            <!-- Card documento existente (botón VER) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDocumentoExistente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="#FFF7ED"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FDBA74"
+                app:strokeWidth="1dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:id="@+id/icDoc"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_check_circle"
+                        app:tint="#F97316" />
+
+                    <TextView
+                        android:id="@+id/tvNombreDoc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_toEndOf="@id/icDoc"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="#1E293B"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/btnVerDoc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:background="?attr/selectableItemBackground"
+                        android:padding="4dp"
+                        android:text="VER"
+                        android:textColor="#F97316"
+                        android:textStyle="bold" />
+
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Layout subir documento -->
+            <LinearLayout
+                android:id="@+id/layoutSubirDocumento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubir"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUBIR COMPROBANTE"
+                    android:textColor="#F97316"
+                    android:textSize="12sp"
+                    app:icon="@drawable/ic_upload"
+                    app:iconSize="16dp"
+                    app:iconTint="#F97316"
+                    app:strokeColor="#F97316" />
+
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

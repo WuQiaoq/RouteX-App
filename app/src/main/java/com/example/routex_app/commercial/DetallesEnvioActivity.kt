@@ -67,19 +67,27 @@ class DetallesEnvioActivity : AppCompatActivity() {
                     apiService.getDetalleEnvio(token, pedidoId.toInt())
                 }
 
-                // MIRA ESTO EN EL LOGCAT (Filtra por "API_CHECK")
-                detalle.trackingSteps.forEach { paso ->
-                    Log.d("API_CHECK", "Paso: ${paso.titol} | TieneDoc: ${paso.teDocument} | Nombre: ${paso.nomFitxer}")
-                }
-
                 mostrarCabecera(detalle.cliente, detalle.orderNumber)
                 setupTrackingList(detalle.trackingSteps)
-            } catch (e: Exception) {
 
+                // ← AÑADE ESTO
+                binding.tvStatus.text = detalle.estadoActual
+
+                binding.tvLastUpdate.text = detalle.trackingSteps
+                    .filter { it.teDocument }
+                    .lastOrNull()?.dataHora ?: "--/--/--"
+
+                val pasosCompletados = detalle.trackingSteps.count { it.teDocument }
+                if (detalle.trackingSteps.isNotEmpty()) {
+                    binding.progressBarHorizontal.progress =
+                        (pasosCompletados * 100) / detalle.trackingSteps.size
+                }
+
+            } catch (e: Exception) {
+                Log.e("COMMERCIAL", "Error: ${e.message}")
             }
         }
     }
-
     private fun setupTrackingList(pasos: List<TrackingStep>) {
         binding.rvTracking.apply {
             layoutManager = LinearLayoutManager(this@DetallesEnvioActivity)
@@ -240,7 +248,8 @@ class DetallesEnvioActivity : AppCompatActivity() {
             }
             startActivity(Intent.createChooser(intent, "Ver PDF"))
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al abrir PDF", Toast.LENGTH_SHORT).show()
+            Log.e("PDF", "Error al abrir PDF: ${e.message}")
+            Toast.makeText(this, "Error al abrir PDF: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 

@@ -59,17 +59,16 @@ class ClientDocumentAdapter(
             val colorGray = Color.parseColor("#E2E8F0")
 
             if (step.estaCompletado == 1) {
-                ivStepIcon.setImageResource(R.drawable.ic_check_circle)
-                ivStepIcon.imageTintList = ColorStateList.valueOf(colorOrange)
-                lineVertical.backgroundTintList = ColorStateList.valueOf(colorOrange)
+                ivStatusIcon.setImageResource(R.drawable.ic_check_circle)
+                ivStatusIcon.imageTintList = ColorStateList.valueOf(colorOrange)
+                viewLine.backgroundTintList = ColorStateList.valueOf(colorOrange)
             } else {
-                ivStepIcon.setImageResource(R.drawable.ic_circle_outline)
-                ivStepIcon.imageTintList = ColorStateList.valueOf(colorGray)
-                lineVertical.backgroundTintList = ColorStateList.valueOf(colorGray)
+                ivStatusIcon.setImageResource(R.drawable.ic_circle_outline)
+                ivStatusIcon.imageTintList = ColorStateList.valueOf(colorGray)
+                viewLine.backgroundTintList = ColorStateList.valueOf(colorGray)
             }
 
-            // Ocultar la línea si es el último de la lista
-            lineVertical.visibility = if (position == steps.size - 1) View.GONE else View.VISIBLE
+            viewLine.visibility = if (position == steps.size - 1) View.GONE else View.VISIBLE
         }
     }
 
