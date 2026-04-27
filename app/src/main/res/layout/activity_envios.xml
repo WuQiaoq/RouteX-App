@@ -135,7 +135,7 @@
         android:paddingHorizontal="16dp"
         android:paddingBottom="96dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintTop_toBottomOf="@id/menu_filter_status"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp"
@@ -150,9 +150,19 @@
         android:contentDescription="Añadir nuevo envío"
         app:backgroundTint="#FBAF3B"
         app:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_quote"
         app:tint="@android:color/white" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:itemActiveIndicatorStyle="@null"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav_menu_cliente" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

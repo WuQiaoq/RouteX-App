@@ -83,13 +83,24 @@ class SolicitarPresupuestoActivity : AppCompatActivity() {
                 }
 
                 R.id.nav_budgets -> {
-
+                    val nextIntent = Intent(this, PresupuestosTotalActivity::class.java).apply {
+                        putExtra("USER_TOKEN", token)
+                        putExtra("USER_ID", userId)
+                        putExtra("USER_NAME", userName)
+                    }
+                    startActivity(nextIntent)
+                    finish()
                     true
                 }
 
                 R.id.nav_shipping -> {
                     Toast.makeText(this, "Envíos", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, EnviosTotalActivity::class.java))
+                    val nextIntent = Intent(this, EnviosTotalActivity::class.java).apply {
+                        putExtra("USER_TOKEN", token)
+                        putExtra("USER_ID", userId)
+                        putExtra("USER_NAME", userName)
+                    }
+                    startActivity(nextIntent)
                     true
                 }
 

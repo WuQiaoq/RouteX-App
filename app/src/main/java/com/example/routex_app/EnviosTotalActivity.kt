@@ -2,6 +2,7 @@ package com.example.routex_app
 
 import android.os.Bundle
 import android.widget.Toast
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -21,6 +22,9 @@ import kotlinx.coroutines.launch
 class EnviosTotalActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEnviosBinding
+    private var token: String = ""
+    private var userId: Int = -1
+    private var userName: String = "Cliente"
 
     // 🔥 ViewModel + Factory
     private val viewModel: ClientEnviosViewModel by viewModels {
@@ -37,13 +41,14 @@ class EnviosTotalActivity : AppCompatActivity() {
 
         binding.tvTitle.text = "Mis Envíos"
 
-        val token = intent.getStringExtra("USER_TOKEN") ?: ""
-        val userId = intent.getIntExtra("USER_ID", -1)
+        token = intent.getStringExtra("USER_TOKEN") ?: ""
+        userId = intent.getIntExtra("USER_ID", -1)
+        userName = intent.getStringExtra("USER_NAME") ?: "Cliente"
 
         // RecyclerView
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // 🚀 调 API
+        setupBottomNavigation()
+        
         if (token.isNotEmpty() && userId != -1) {
             viewModel.loadEnvios(token, userId)
         }
@@ -51,16 +56,60 @@ class EnviosTotalActivity : AppCompatActivity() {
         observarEstado()
     }
 
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.selectedItemId = R.id.nav_shipping
+
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_home -> {
+                    val nextIntent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("USER_TOKEN", token)
+                        putExtra("USER_ID", userId)
+                        putExtra("USER_NAME", userName)
+                    }
+                    startActivity(nextIntent)
+                    finish()
+                    true
+                }
+
+                R.id.nav_budgets -> {
+                    val nextIntent = Intent(this, PresupuestosTotalActivity::class.java).apply {
+                        putExtra("USER_TOKEN", token)
+                        putExtra("USER_ID", userId)
+                        putExtra("USER_NAME", userName)
+                    }
+                    startActivity(nextIntent)
+                    finish()
+                    true
+                }
+
+                R.id.nav_shipping -> true
+
+                R.id.nav_chat -> {
+                    Toast.makeText(this, "Chat", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.nav_profile -> {
+                    Toast.makeText(this, "Perfil", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
     private fun observarEstado() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
-
-                    // ✅ 成功
+                    
                     state.data?.let { lista ->
 
                         val envios = lista.map {
                             Envio(
+                                id = it.id,
                                 code = "#SHP-${it.id}",
                                 tipo = "Tipo ${it.TipusTransportId}",
                                 origen = it.Ruta.split("-").getOrNull(0) ?: "Origen",
@@ -72,15 +121,25 @@ class EnviosTotalActivity : AppCompatActivity() {
 
                         binding.recyclerView.adapter =
                             EnviosAdapter(envios) { envio ->
-                                Toast.makeText(
+                                val detailIntent = Intent(
                                     this@EnviosTotalActivity,
-                                    envio.code,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                    ClienteDetallesEnvioActivity::class.java
+                                ).apply {
+                                    putExtra("USER_TOKEN", token)
+                                    putExtra("USER_ID", userId)
+                                    putExtra("USER_NAME", userName)
+                                    putExtra("ENVIO_ID", envio.id)
+                                    putExtra("CODE", envio.code)
+                                    putExtra("TIPO", envio.tipo)
+                                    putExtra("ORIGEN", envio.origen)
+                                    putExtra("DESTINO", envio.destino)
+                                    putExtra("ESTADO", envio.estado)
+                                    putExtra("FECHA", envio.fecha)
+                                }
+                                startActivity(detailIntent)
                             }
                     }
 
-                    // ❌ error
                     state.error?.let {
                         Toast.makeText(
                             this@EnviosTotalActivity,

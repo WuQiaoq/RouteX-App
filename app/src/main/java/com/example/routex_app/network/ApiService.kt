@@ -6,6 +6,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
+import io.ktor.client.statement.readBytes
 import io.ktor.http.*
 
 class ApiService(private val client: HttpClient) {
@@ -91,5 +92,44 @@ class ApiService(private val client: HttpClient) {
     // puertos de solicitud presupuesto
     suspend fun getPorts() =
         client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.PORT)
+
+    suspend fun getClientAcceptedQuotes(token: String, userId: Int): List<Presupuesto> =
+        client.get(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_ACCEPTED_QUOTES_ENDPOINT + userId) {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+
+    suspend fun obtenerPresupuestosCliente(token: String, userId: Int): List<Presupuesto> =
+        client.get(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + userId) {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+
+    suspend fun aceptarPresupuestoCliente(token: String, userId: Int, presupuestoId: Int): HttpResponse =
+        client.put(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + presupuestoId + "/accept") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            contentType(ContentType.Application.Json)
+            setBody(DecisionPresupuestoRequest(clientId = userId))
+        }
+
+    suspend fun rechazarPresupuestoCliente(
+        token: String,
+        userId: Int,
+        presupuestoId: Int,
+        motivoRechazo: String
+    ): HttpResponse =
+        client.put(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + presupuestoId + "/reject") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            contentType(ContentType.Application.Json)
+            setBody(DecisionPresupuestoRequest(clientId = userId, rejectionReason = motivoRechazo))
+        }
+
+    suspend fun descargarDocumentoCliente(token: String, ofertaId: Int, nombreArchivo: String): ByteArray =
+        client.get(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_OFERTA_DOCUMENTS_ENDPOINT + ofertaId + "/documents/" + nombreArchivo) {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.readBytes()
+
+    suspend fun obtenerTrackingEnvioCliente(token: String, ofertaId: Int): TrackingEnvioResponse =
+        client.get(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_ENVIO_TRACKING_ENDPOINT + ofertaId + "/tracking") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
 
 }

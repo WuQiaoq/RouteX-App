@@ -8,6 +8,7 @@ import com.example.routex_app.models.IndustryModel
 import com.example.routex_app.models.PortModel
 import com.example.routex_app.models.Presupuesto
 import com.example.routex_app.models.RegisterClientRequest
+import com.example.routex_app.models.TrackingEnvioResponse
 import com.example.routex_app.network.ApiService
 import com.example.routex_app.utils.Resource
 import io.ktor.client.call.body
@@ -102,6 +103,73 @@ class ClientRepository(private val apiService: ApiService) {
             Resource.Success(data)
         } catch (e: Exception) {
             Resource.Error(e.localizedMessage ?: "Error al cargar envíos")
+        }
+    }
+
+    suspend fun getClientEnvios(token: String, userId: Int): Resource<List<Presupuesto>> {
+        return try {
+            val data = apiService.getClientAcceptedQuotes(token, userId)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar envios")
+        }
+    }
+
+    suspend fun obtenerPresupuestosCliente(token: String, userId: Int): Resource<List<Presupuesto>> {
+        return try {
+            val data = apiService.obtenerPresupuestosCliente(token, userId)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar presupuestos")
+        }
+    }
+
+    suspend fun aceptarPresupuestoCliente(token: String, userId: Int, presupuestoId: Int): Resource<String> {
+        return try {
+            val response = apiService.aceptarPresupuestoCliente(token, userId, presupuestoId)
+            if (response.status == HttpStatusCode.OK) {
+                Resource.Success("Presupuesto aceptado correctamente")
+            } else {
+                Resource.Error("Error al aceptar presupuesto")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al aceptar presupuesto")
+        }
+    }
+
+    suspend fun rechazarPresupuestoCliente(
+        token: String,
+        userId: Int,
+        presupuestoId: Int,
+        motivoRechazo: String
+    ): Resource<String> {
+        return try {
+            val response = apiService.rechazarPresupuestoCliente(token, userId, presupuestoId, motivoRechazo)
+            if (response.status == HttpStatusCode.OK) {
+                Resource.Success("Presupuesto rechazado correctamente")
+            } else {
+                Resource.Error("Error al rechazar presupuesto")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al rechazar presupuesto")
+        }
+    }
+
+    suspend fun descargarDocumentoCliente(token: String, ofertaId: Int, nombreArchivo: String): Resource<ByteArray> {
+        return try {
+            val data = apiService.descargarDocumentoCliente(token, ofertaId, nombreArchivo)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Documento no disponible")
+        }
+    }
+
+    suspend fun obtenerTrackingEnvioCliente(token: String, ofertaId: Int): Resource<TrackingEnvioResponse> {
+        return try {
+            val data = apiService.obtenerTrackingEnvioCliente(token, ofertaId)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar tracking")
         }
     }
 }

@@ -129,13 +129,23 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_budgets -> {
                     Toast.makeText(this, "Cotizar", Toast.LENGTH_SHORT).show()
-                    // startActivity(Intent(this, PresupuestosTotalActivity::class.java))
+                    val nextIntent = Intent(this, PresupuestosTotalActivity::class.java).apply {
+                        putExtra("USER_TOKEN", intent.getStringExtra("USER_TOKEN") ?: "")
+                        putExtra("USER_ID", intent.getIntExtra("USER_ID", -1))
+                        putExtra("USER_NAME", intent.getStringExtra("USER_NAME") ?: "Cliente")
+                    }
+                    startActivity(nextIntent)
                     true
                 }
 
                 R.id.nav_shipping -> {
                     Toast.makeText(this, "Envíos", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, EnviosTotalActivity::class.java))
+                    val nextIntent = Intent(this, EnviosTotalActivity::class.java).apply {
+                        putExtra("USER_TOKEN", intent.getStringExtra("USER_TOKEN") ?: "")
+                        putExtra("USER_ID", intent.getIntExtra("USER_ID", -1))
+                        putExtra("USER_NAME", intent.getStringExtra("USER_NAME") ?: "Cliente")
+                    }
+                    startActivity(nextIntent)
                     true
                 }
 

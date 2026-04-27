@@ -78,7 +78,15 @@
             android:exported="false" />
 
         <activity
-            android:name=".DetallesEnvioActivity"
+            android:name=".PresupuestosTotalActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ClienteDetallePresupuestoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ClienteDetallesEnvioActivity"
             android:exported="false" />
     </application>
 

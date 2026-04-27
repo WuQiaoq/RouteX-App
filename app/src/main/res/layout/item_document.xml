@@ -5,74 +5,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
+    android:layout_marginBottom="10dp"
     app:cardBackgroundColor="@android:color/white"
     app:cardCornerRadius="12dp"
     app:cardElevation="0dp"
     app:strokeColor="#E2E8F0"
     app:strokeWidth="1dp">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="14dp">
 
-        <FrameLayout
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="#FEF3C7">
-            <ImageView
-                android:id="@+id/ivDocIcon"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                tools:src="@drawable/ic_budget"
-                app:tint="#EA580C" />
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="12dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvDocTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Propuesta Comercial"
-                android:textColor="#1A202C"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvDocSize"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="PDF • 1.2 MB"
-                android:textColor="#64748B"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/btnDownload"
+        <ImageView
+            android:id="@+id/ivDocumentIcon"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            app:cardBackgroundColor="#EA580C"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp">
+            android:background="#EFF6FF"
+            android:padding="8dp"
+            android:src="@android:drawable/ic_menu_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="#2563EB" />
+
+        <TextView
+            android:id="@+id/tvDocumentTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="#1A202C"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@id/btnDownloadDocument"
+            app:layout_constraintStart_toEndOf="@id/ivDocumentIcon"
+            app:layout_constraintTop_toTopOf="@id/ivDocumentIcon"
+            tools:text="Factura proforma" />
+
+        <TextView
+            android:id="@+id/tvDocumentSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="12dp"
+            android:textColor="#64748B"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/btnDownloadDocument"
+            app:layout_constraintStart_toEndOf="@id/ivDocumentIcon"
+            app:layout_constraintTop_toBottomOf="@id/tvDocumentTitle"
+            tools:text="Documento disponible" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnDownloadDocument"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:clickable="true"
+            android:contentDescription="Descargar documento"
+            android:focusable="true"
+            app:cardBackgroundColor="#F97316"
+            app:cardCornerRadius="9dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_gravity="center"
                 android:src="@android:drawable/stat_sys_download"
                 app:tint="@android:color/white" />
         </com.google.android.material.card.MaterialCardView>
 
-    </LinearLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

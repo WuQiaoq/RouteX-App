@@ -9,15 +9,18 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:background="#F8FAFC"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:paddingBottom="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,12 +31,14 @@
                 android:layout_marginBottom="16dp">
 
                 <ImageView
+                    android:id="@+id/btnBackDetalle"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@android:drawable/ic_menu_revert"
                     app:tint="#FBAF3B" />
 
                 <TextView
+                    android:id="@+id/tvDetalleTitulo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -132,6 +137,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/tvEstadoActual"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="6dp"
@@ -169,6 +175,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvLlegadaEstimada"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -197,9 +204,9 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvProgressPercent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
                     android:backgroundTint="#E2E8F0"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="4dp"
@@ -219,7 +226,7 @@
                     android:layout_marginTop="16dp"
                     android:max="100"
                     tools:progress="70"
-                    android:progressDrawable="@drawable/custom_progress_bar"
+                    android:progressDrawable="@drawable/custom_progress_orange"
                     app:layout_constraintTop_toBottomOf="@id/tv_progress_title" />
 
                 <LinearLayout
@@ -270,6 +277,64 @@
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="Hitos Recientes"
+                android:textColor="#1A202C"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvHitoActual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#111827"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="En transito" />
+
+                <TextView
+                    android:id="@+id/tvHitoRuta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:textColor="#64748B"
+                    android:textSize="12sp"
+                    tools:text="Origen - Destino" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="14dp"
+                    android:background="#E2E8F0" />
+
+                <TextView
+                    android:id="@+id/tvHitoSecundarioTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Salida del puerto"
+                    android:textColor="#111827"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvHitoSecundarioDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Documentacion validada"
+                    android:textColor="#64748B"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -304,7 +369,6 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         app:itemActiveIndicatorStyle="@null"
-
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_nav_menu_cliente" />
