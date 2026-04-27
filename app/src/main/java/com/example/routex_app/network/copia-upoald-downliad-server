@@ -31,22 +31,19 @@ object NetworkClient {
     }
 
     // --- PUJAR (UPLOAD) SIN CIFRADO ---
-// --- PUJAR (UPLOAD) CON CIFRADO ---
     fun enviarDni(userId: String, bytes: ByteArray, fileName: String): String {
         val socket = Socket()
         return try {
             socket.connect(InetSocketAddress(HOST, PORT), 10000)
             val output = DataOutputStream(socket.getOutputStream())
 
-            val bytesCifrados = xifrar(bytes) // ← ciframos antes de enviar
-
             output.writeUTF("PUJAR")
             output.writeUTF(userId)
             output.writeUTF(fileName)
-            output.writeLong(bytesCifrados.size.toLong()) // ← tamaño de los bytes cifrados
+            output.writeLong(bytes.size.toLong()) // ← el servidor hace readLong()
             output.flush()
 
-            output.write(bytesCifrados)
+            output.write(bytes)
             output.flush()
 
             "✅ Pujada finalitzada"
@@ -54,11 +51,13 @@ object NetworkClient {
             Log.e("NetworkClient", "Error al subir: ${e.message}")
             "❌ Error al servidor: ${e.message}"
         } finally {
-            try { socket.close() } catch (e: Exception) { }
+            try {
+                socket.close()
+            } catch (e: Exception) {
+            }
         }
     }
 
-    // --- BAIXAR (DOWNLOAD) CON CIFRADO ---
     fun baixarDni(userId: String, fileName: String): ByteArray? {
         val socket = Socket()
         return try {
@@ -77,13 +76,10 @@ object NetworkClient {
             if (!existeix) return null
 
             val mida = input.readLong()
-            val dadesCifrades = ByteArray(mida.toInt())
-            input.readFully(dadesCifrades)
-            Log.d("BAIXAR", "Bytes cifrados recibidos: ${dadesCifrades.size}")
-
-            val dadesClares = desxifrar(dadesCifrades) // ← desciframos al recibir
-            Log.d("BAIXAR", "Bytes descifrados: ${dadesClares.size}")
-            dadesClares
+            val dadesRebudes = ByteArray(mida.toInt())
+            input.readFully(dadesRebudes)
+            Log.d("BAIXAR", "Total recibido: ${dadesRebudes.size} bytes")
+            dadesRebudes
 
         } catch (e: Exception) {
             Log.e("BAIXAR", "Error: ${e.javaClass.simpleName} - ${e.message}")
