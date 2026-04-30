@@ -13,7 +13,6 @@ object ApiEndpointsList {
     //const val BASE_URL_SERVER = "http://10.0.2.2:5199/"
 
 
-
     // Aquí puedes poner los nombres de los endpoints para no equivocarte
     const val LOGIN_ENDPOINT = "login"
     const val COMMERCIAL_DASHBOARD_ENDPOINT = "commercial/dashboard/"
@@ -36,4 +35,8 @@ object ApiEndpointsList {
     const val CLIENTE_DASHBOARD = "client/dashboard/"
     const val PORT = "Ports"
 
+    // acceptar, rechazar el presupuesto de Mis presupuestos
+
+    const val CLIENT_ACCEPTED_QUOTES_ENDPOINT = "client/ofertes/accepted/"
+    const val CLIENT_PRESUPUESTOS_ENDPOINT = "client/presupuestos/"
 }

@@ -107,6 +107,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tabTodos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/bottom_nav_active"
@@ -118,6 +119,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tabPendientes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -128,6 +130,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tabAceptados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -138,6 +141,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tabRechazados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -158,7 +162,7 @@
         android:paddingHorizontal="16dp"
         android:paddingBottom="96dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintTop_toBottomOf="@id/scroll_tabs"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="-16dp"
@@ -172,7 +176,7 @@
         android:layout_marginBottom="24dp"
         app:backgroundTint="@color/color_primary"
         app:elevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_add_quote"
         app:tint="@android:color/white" />

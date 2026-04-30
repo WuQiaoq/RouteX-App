@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.routex_app.cliente.EnviosTotalActivity
 import com.example.routex_app.cliente.MainActivity
 import com.example.routex_app.cliente.PerfilActivity
+import com.example.routex_app.cliente.PresupuestosTotalActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavigationUtilsClient {
@@ -22,7 +23,7 @@ class NavigationUtilsClient {
 
             val intent = when (item.itemId) {
                 R.id.nav_home -> Intent(activity, MainActivity::class.java)
-                R.id.nav_budgets -> { null }
+                R.id.nav_budgets -> Intent(activity, PresupuestosTotalActivity::class.java)
                 R.id.nav_shipping -> Intent(activity, EnviosTotalActivity::class.java)
                 R.id.nav_chat -> { null }
                 R.id.nav_profile -> Intent(activity, PerfilActivity::class.java)
