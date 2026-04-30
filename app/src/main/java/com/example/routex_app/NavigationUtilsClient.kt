@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.routex_app.cliente.EnviosTotalActivity
 import com.example.routex_app.cliente.MainActivity
+import com.example.routex_app.cliente.PerfilActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavigationUtilsClient {
@@ -24,7 +25,7 @@ class NavigationUtilsClient {
                 R.id.nav_budgets -> { null }
                 R.id.nav_shipping -> Intent(activity, EnviosTotalActivity::class.java)
                 R.id.nav_chat -> { null }
-                R.id.nav_profile -> { null }
+                R.id.nav_profile -> Intent(activity, PerfilActivity::class.java)
                 else -> null
             }
 
