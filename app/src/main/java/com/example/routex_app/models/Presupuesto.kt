@@ -20,5 +20,15 @@ data class Presupuesto(
     val RaoRebuig: String? = null,
 
     @SerialName("transport_type_id")
-    val TipusTransportId: Int
+    val TipusTransportId: Int,
+
+    // Campos opcionales de Mis Presupuestos
+    @SerialName("status")
+    val Estado: String? = null,
+
+    @SerialName("status_id")
+    val EstadoId: Int? = null,
+
+    @SerialName("date")
+    val Fecha: String? = null
 )

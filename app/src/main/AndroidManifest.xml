@@ -78,6 +78,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".cliente.PerfilActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".cliente.DetallesEnvioActivity"
             android:exported="false" />
 
@@ -85,6 +89,13 @@
             android:name=".cliente.DetallesClientEnvioActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".cliente.PresupuestosTotalActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".cliente.ClienteDetallePresupuestoActivity"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -164,4 +164,33 @@ class ApiService(private val client: HttpClient) {
         }.body()
     }
 
+    suspend fun getClientAcceptedQuotes(token: String, userId: Int): List<Presupuesto> =
+        client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_ACCEPTED_QUOTES_ENDPOINT + userId) {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+
+    suspend fun obtenerPresupuestosCliente(token: String, userId: Int): List<Presupuesto> =
+        client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + userId) {
+            header(HttpHeaders.Authorization, "Bearer $token")
+        }.body()
+
+    suspend fun aceptarPresupuestoCliente(token: String, userId: Int, presupuestoId: Int): HttpResponse =
+        client.put(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + presupuestoId + "/accept") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            contentType(ContentType.Application.Json)
+            setBody(DecisionPresupuestoRequest(clientId = userId))
+        }
+
+    suspend fun rechazarPresupuestoCliente(
+        token: String,
+        userId: Int,
+        presupuestoId: Int,
+        motivoRechazo: String
+    ): HttpResponse =
+        client.put(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + presupuestoId + "/reject") {
+            header(HttpHeaders.Authorization, "Bearer $token")
+            contentType(ContentType.Application.Json)
+            setBody(DecisionPresupuestoRequest(clientId = userId, rejectionReason = motivoRechazo))
+        }
+
 }

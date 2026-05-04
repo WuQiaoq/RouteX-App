@@ -110,4 +110,44 @@ class ClientRepository(private val apiService: ApiService) {
             Resource.Error(e.localizedMessage ?: "Error al cargar envíos")
         }
     }
+
+    suspend fun obtenerPresupuestosCliente(token: String, userId: Int): Resource<List<Presupuesto>> {
+        return try {
+            val data = apiService.obtenerPresupuestosCliente(token, userId)
+            Resource.Success(data)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al cargar presupuestos")
+        }
+    }
+
+    suspend fun aceptarPresupuestoCliente(token: String, userId: Int, presupuestoId: Int): Resource<String> {
+        return try {
+            val response = apiService.aceptarPresupuestoCliente(token, userId, presupuestoId)
+            if (response.status == HttpStatusCode.OK || response.status == HttpStatusCode.NoContent) {
+                Resource.Success("Presupuesto aceptado correctamente")
+            } else {
+                Resource.Error("Error al aceptar presupuesto")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al aceptar presupuesto")
+        }
+    }
+
+    suspend fun rechazarPresupuestoCliente(
+        token: String,
+        userId: Int,
+        presupuestoId: Int,
+        motivoRechazo: String
+    ): Resource<String> {
+        return try {
+            val response = apiService.rechazarPresupuestoCliente(token, userId, presupuestoId, motivoRechazo)
+            if (response.status == HttpStatusCode.OK || response.status == HttpStatusCode.NoContent) {
+                Resource.Success("Presupuesto rechazado correctamente")
+            } else {
+                Resource.Error("Error al rechazar presupuesto")
+            }
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage ?: "Error al rechazar presupuesto")
+        }
+    }
 }
