@@ -48,6 +48,7 @@ class CommercialNewClientActivity : AppCompatActivity() {
         val btnUploadId = findViewById<MaterialButton>(R.id.btnUploadId)
         val btnDownloadId = findViewById<MaterialButton>(R.id.btnDownloadId)
         val btnRegistrar = findViewById<Button>(R.id.btnRegistrar)
+        val btnBack = findViewById< ImageButton>(R.id.btnBack)
 
         loadDropdownData()
 
@@ -64,39 +65,13 @@ class CommercialNewClientActivity : AppCompatActivity() {
             val request = collectData()
             if (request != null) executeRegistration(request)
         }
-    }
-/* old
-    private fun processAndUploadImage(uri: Uri) {
-        val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()
 
-        if (usertlfn.isEmpty()) {
-            Toast.makeText(this, "Introdueix el Tax ID per crear la carpeta del client", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val inputStream = contentResolver.openInputStream(uri)
-                val bytes = inputStream?.readBytes() ?: return@launch
-                val fileName = "dni.jpg"
-
-                val resultat = NetworkClient2.enviarDni(usertlfn, bytes, fileName)
-
-                withContext(Dispatchers.Main) {
-                    serverFileResponse = fileName
-                    txtIdStatus.text = "✓ DNI enviat a la carpeta /uploads/$usertlfn"
-                    txtIdStatus.setTextColor(getColor(android.R.color.holo_green_dark))
-                    Toast.makeText(this@CommercialNewClientActivity, resultat, Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    txtIdStatus.text = "Error en la pujada"
-                    txtIdStatus.setTextColor(getColor(android.R.color.holo_red_dark))
-                }
-            }
+        btnBack.setOnClickListener {
+            finish()
         }
     }
-*/
+
+
     // FUNCIÓ DE DESCÀRREGA UNIFICADA I CORREGIDA
     private fun descarregarIMostrarDni() {
         val usertlfn = findViewById<TextInputEditText>(R.id.etPhone).text.toString().trim()

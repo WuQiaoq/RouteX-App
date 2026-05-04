@@ -50,6 +50,14 @@ class CommercialHomeActivity : AppCompatActivity() {
             startActivity(Intent(this, CommercialNewClientActivity::class.java))
         }
 
+        binding.btnTrack.setOnClickListener {
+            startActivity(Intent(this, EnviosActivity ::class.java))
+        }
+
+        binding.btnClients.setOnClickListener {
+            startActivity(Intent(this, ClientesActivosActivity ::class.java))
+        }
+
         // --- ARREGLADO: Llamamos a la función que ya creaste abajo ---
         binding.btnJugarRouteX.setOnClickListener {
             mostrarDialogoSeleccionTransporte()
