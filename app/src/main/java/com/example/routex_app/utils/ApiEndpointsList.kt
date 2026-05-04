@@ -9,7 +9,7 @@ object ApiEndpointsList {
 
     const val BASE_URL_PHP = "https://approutex.josepguiudev.tech/api/"
     const val BASE_URL_CS = "http://routex-apicsharp-6bahrx-f06c64-51-83-192-177.traefik.me/api/"
-    const val BASE_URL_CS_LOCAL = "http://10.0.2.2:5198/api/"//临时
+    const val BASE_URL_CS_LOCAL = "http://10.0.2.2:5198/api/"//临
     // ruta al servido de Springboot en docker
     const val BASE_URL_SERVER = "http://10.0.2.2:5199/"
 

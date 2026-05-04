@@ -116,19 +116,19 @@ class ApiService(private val client: HttpClient) {
         presupuestoId: Int,
         motivoRechazo: String
     ): HttpResponse =
-        client.put(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + presupuestoId + "/reject") {
+        client.put(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_PRESUPUESTOS_ENDPOINT + presupuestoId + "/reject") {
             header(HttpHeaders.Authorization, "Bearer $token")
             contentType(ContentType.Application.Json)
             setBody(DecisionPresupuestoRequest(clientId = userId, rejectionReason = motivoRechazo))
         }
 
     suspend fun descargarDocumentoCliente(token: String, ofertaId: Int, nombreArchivo: String): ByteArray =
-        client.get(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_OFERTA_DOCUMENTS_ENDPOINT + ofertaId + "/documents/" + nombreArchivo) {
+        client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_OFERTA_DOCUMENTS_ENDPOINT + ofertaId + "/documents/" + nombreArchivo) {
             header(HttpHeaders.Authorization, "Bearer $token")
         }.readBytes()
 
     suspend fun obtenerTrackingEnvioCliente(token: String, ofertaId: Int): TrackingEnvioResponse =
-        client.get(ApiEndpointsList.BASE_URL_CS_LOCAL + ApiEndpointsList.CLIENT_ENVIO_TRACKING_ENDPOINT + ofertaId + "/tracking") {
+        client.get(ApiEndpointsList.BASE_URL_CS + ApiEndpointsList.CLIENT_ENVIO_TRACKING_ENDPOINT + ofertaId + "/tracking") {
             header(HttpHeaders.Authorization, "Bearer $token")
         }.body()
 
